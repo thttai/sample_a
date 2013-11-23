@@ -115,19 +115,16 @@ int checkcat_id;
         case 0:
             checkcat_id=0;
             [self processlistcatagory];
-            [self.Tableviewlistapp setContentOffset:CGPointMake(0, _getContentOffsetseg1) animated:NO];
             [_Tableviewlistapp reloadData];
             break;
         case 1:
             checkcat_id=1;
             [self processlistcatagory];
-            [self.Tableviewlistapp setContentOffset:CGPointMake(0,  _getContentOffsetseg2) animated:NO];
             [_Tableviewlistapp reloadData];
             break;
         case 2:     
             checkcat_id=2;
             [self processlistcatagory];
-            [self.Tableviewlistapp setContentOffset:CGPointMake(0,  _getContentOffsetseg3) animated:NO];
             [_Tableviewlistapp reloadData];
             break;
     }
@@ -178,20 +175,6 @@ int checkcat_id;
             CGRect r = _bannerView.frame;
             r.origin.y = 44;
             _bannerView.frame = r;
-        }
-        
-        if(_Segment.selectedSegmentIndex==0)
-        {
-            // get contenoffset segment 1
-            _getContentOffsetseg1 =_Tableviewlistapp.contentOffset.y;
-        }
-        else if(_Segment.selectedSegmentIndex==1) {
-            // get contenoffset segment 2
-            _getContentOffsetseg2 =_Tableviewlistapp.contentOffset.y;
-        }
-        else if(_Segment.selectedSegmentIndex==2) {
-            // get contenoffset segment 3
-            _getContentOffsetseg3 =_Tableviewlistapp.contentOffset.y;
         }
     }
     
@@ -348,16 +331,19 @@ int checkcat_id;
     if (temp.banner)
     {
         self.bannerView.hidden = NO;
-        self.Tableviewlistapp.contentInset = UIEdgeInsetsMake(162, 0, 0, 0);
+        self.Tableviewlistapp.contentInset = UIEdgeInsetsMake(162, 0, 0, 0); // has banner view
         self.Tableviewlistapp.scrollIndicatorInsets = self.Tableviewlistapp.contentInset;
         [self addBanner:temp.banner];
+        
     } else {
         self.bannerView.hidden = YES;
-        self.Tableviewlistapp.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        self.Tableviewlistapp.contentInset = UIEdgeInsetsMake(44, 0, 0, 0); // doesn't have banner view
         self.Tableviewlistapp.scrollIndicatorInsets = self.Tableviewlistapp.contentInset;
+        
     }
+    // update banner position
+    [self scrollViewDidScroll:self.Tableviewlistapp];
 }
-
 
 #pragma mark -
 #pragma mark RKManageDelegate

@@ -24,11 +24,6 @@
 @property (strong, nonatomic) NSMutableArray *MutableArrayListCategory;
 @property (strong, nonatomic) UIWebView *webView;
 @property (strong, nonatomic) Apprecord *apprecord;
-
-@property float getContentOffsetseg1;
-@property float getContentOffsetseg2;
-@property float getContentOffsetseg3;
-
  
 - (IBAction)btsegemented:(id)sender;
 
