@@ -17,6 +17,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *categoryapp;
 @property (strong, nonatomic) Apprecord *apprecord;
 @property (weak, nonatomic) IBOutlet UILabel *downloadNumLbl;
+
+@property (strong, nonatomic) DYRateView *rateView;
+
 -(void)CustomCell: (NSString *) number;
 
 @end
