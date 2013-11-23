@@ -757,7 +757,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/pc/Desktop/ADN/ADN/SDWebImage-3.3/Vendors",
+					"$SOURCE_ROOT/ADN/SDWebImage-3.3/Vendors",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ADN/ADN-Prefix.pch";
@@ -792,7 +792,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/pc/Desktop/ADN/ADN/SDWebImage-3.3/Vendors",
+					"$SOURCE_ROOT/ADN/SDWebImage-3.3/Vendors",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ADN/ADN-Prefix.pch";

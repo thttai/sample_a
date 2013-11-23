@@ -12,6 +12,8 @@
 #import "APIManager.h"
 #import "CellBanner.h"
 
+#define TIME_CHANGE_BANNER 5
+
 @interface ViewController ()<RKManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *bannerView;
 @property (weak, nonatomic) IBOutlet UIScrollView *bannerScrollView;
@@ -71,15 +73,6 @@ int checkcat_id;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     NSString *CellIdentifier = @"Cell";
-    if (indexPath.row == 0) {
-        AppCategory *temp = [_MutableArrayListCategory objectAtIndex:_Segment.selectedSegmentIndex];
-        if (temp.banner) {
-            CellBanner *cell = (CellBanner *)[tableView dequeueReusableCellWithIdentifier:@"CellBanner"];
-            [cell setDataSourceScrollView:temp.banner withKey:@"image"];
-            [cell setTimeInterval:5];
-            return cell;
-        }
-    }
     Celllistapp *cell = (Celllistapp *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
   
     if(!cell)
@@ -113,12 +106,6 @@ int checkcat_id;
 #pragma mark TableViewDelegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        AppCategory *temp = [_MutableArrayListCategory objectAtIndex:_Segment.selectedSegmentIndex];
-        if (temp.banner) {
-            return 119;
-        }
-    }
     return 84;
 }
 
@@ -145,27 +132,46 @@ int checkcat_id;
             break;
     }
 }
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    NSLog(@"scrollViewDidEndDecelerating-0");
+    if (scrollView == self.bannerScrollView) {
+        CGRect frame = self.bannerScrollView.frame;
+        CGPoint contentOffset = self.bannerScrollView.contentOffset;
+        int currentPage = contentOffset.x/frame.size.width;
+        if (self.pageControlView.currentPage == currentPage) {
+            return;
+        }
+        self.pageControlView.currentPage = currentPage;
+        
+        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+        [self performSelector:@selector(executeChangeBanner) withObject:Nil afterDelay:TIME_CHANGE_BANNER];
+    }
+}
+
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-
+    NSLog(@"scrollViewWillBeginDragging-1");
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-
+    NSLog(@"scrollViewDidEndDragging-2");
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    NSLog(@"scrollViewDidScroll-3 %f", scrollView.contentOffset.y);
     // update header position
-    if (_bannerView) {
+    if (scrollView == self.Tableviewlistapp) {
         CGFloat offsetY = scrollView.contentOffset.y;
-        //        VKLog(@"offsetY = %f", offsetY);
-        if (offsetY > 0) {
+        CGFloat insetTop = scrollView.contentInset.top;
+        if (offsetY > -insetTop) {
             
             // follow table
             CGRect r = _bannerView.frame;
-            r.origin.y = 44 - offsetY;
+            r.origin.y = 44 - (offsetY + insetTop);
             _bannerView.frame = r;
         }
         else {
@@ -173,21 +179,22 @@ int checkcat_id;
             r.origin.y = 44;
             _bannerView.frame = r;
         }
+        
+        if(_Segment.selectedSegmentIndex==0)
+        {
+            // get contenoffset segment 1
+            _getContentOffsetseg1 =_Tableviewlistapp.contentOffset.y;
+        }
+        else if(_Segment.selectedSegmentIndex==1) {
+            // get contenoffset segment 2
+            _getContentOffsetseg2 =_Tableviewlistapp.contentOffset.y;
+        }
+        else if(_Segment.selectedSegmentIndex==2) {
+            // get contenoffset segment 3
+            _getContentOffsetseg3 =_Tableviewlistapp.contentOffset.y;
+        }
     }
     
-    if(_Segment.selectedSegmentIndex==0)
-    {
-        // get contenoffset segment 1
-        _getContentOffsetseg1 =_Tableviewlistapp.contentOffset.y;
-    }
-    else if(_Segment.selectedSegmentIndex==1) {
-        // get contenoffset segment 2
-        _getContentOffsetseg2 =_Tableviewlistapp.contentOffset.y;
-    }
-    else if(_Segment.selectedSegmentIndex==2) {
-        // get contenoffset segment 3
-        _getContentOffsetseg3 =_Tableviewlistapp.contentOffset.y;
-    }
     
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -284,6 +291,56 @@ int checkcat_id;
 
 }
 
+#pragma mark - Banner Methods
+
+-(void)executeChangeBanner
+{
+    CGRect frame = self.bannerScrollView.frame;
+    CGPoint contentOffset = self.bannerScrollView.contentOffset;
+    CGFloat xMax = frame.size.width * (self.bannerScrollView.subviews.count - 1);
+    //check next coordinate x to move
+    if (contentOffset.x == xMax) {
+        contentOffset.x = 0;
+    }  else {
+        contentOffset.x += frame.size.width;
+    }
+    int currentPage = contentOffset.x/frame.size.width;
+    self.pageControlView.currentPage = currentPage;
+    [UIView animateWithDuration:0.5 animations:^{
+        [self.bannerScrollView setContentOffset:contentOffset];
+    } completion:^(BOOL finished) {
+        [self performSelector:@selector(executeChangeBanner) withObject:Nil afterDelay:TIME_CHANGE_BANNER];
+    }];
+}
+
+- (IBAction)changePage:(id)sender
+{
+    [self executeChangeBanner];    // YES = animate
+}
+
+-(void)addBanner:(NSMutableArray *)array
+{
+    //    NSLog(@"-----self.myScrollView.subviews.count = %d",self.myScrollView.subviews.count);
+    if (self.bannerScrollView.subviews.count > 0) {
+        return;
+    }
+    CGRect frame = self.bannerScrollView.frame;
+    for (int i = 0; i < array.count; i++)
+    {
+        NSDictionary *dic = [array objectAtIndex:i];
+        NSString *url = (NSString *)[dic objectForKey:@"image"];
+        SDImageView *imgView = [[SDImageView alloc] initWithFrame:CGRectMake(frame.origin.x + i*frame.size.width, frame.origin.y, frame.size.width, frame.size.height)];
+        [self.bannerScrollView addSubview:imgView];
+        [imgView setImageWithURL:[NSURL URLWithString:url]];
+    }
+    self.pageControlView.numberOfPages = array.count;
+    self.pageControlView.currentPage = 0;
+    self.bannerScrollView.pagingEnabled = YES;
+    self.bannerScrollView.contentSize = CGSizeMake(frame.size.width * array.count, 0);//disable scroll vertical
+    [self performSelector:@selector(executeChangeBanner) withObject:Nil afterDelay:TIME_CHANGE_BANNER];
+}
+
+
 #pragma mark -
 #pragma mark RKManageDelegate
 #pragma mark -
@@ -293,6 +350,8 @@ int checkcat_id;
         self.MutableArrayListCategory = [NSMutableArray arrayWithArray:array];
         [self.Tableviewlistapp reloadData];
         [self processlistcatagory];
+        AppCategory *temp = [_MutableArrayListCategory objectAtIndex:_Segment.selectedSegmentIndex];
+        if (temp.banner)[self addBanner:temp.banner];
         return;
     } else if (request_id == ID_REQUEST_GET_LIST_APP_BY_CATEGORY ) {
         self.MutableArrayListApp = [NSMutableArray arrayWithArray:array];
