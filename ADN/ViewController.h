@@ -29,7 +29,7 @@
 @property float getContentOffsetseg2;
 @property float getContentOffsetseg3;
 
-
+ 
 - (IBAction)btsegemented:(id)sender;
 
 @end
