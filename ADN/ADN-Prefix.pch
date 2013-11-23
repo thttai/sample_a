@@ -1,0 +1,32 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import <RestKit/RestKit.h>
+    #import <CoreData/CoreData.h>
+    #import <SystemConfiguration/SystemConfiguration.h>
+    #import <MobileCoreServices/MobileCoreServices.h>
+    #import "NSString+MD5Addition.h"
+    #import "NSData+AES256.h"
+    #import "NSString+SHA.h"
+    #import "DictionaryMapping.h"
+    #import "ArrayMapping.h"
+    #import "APIDefines.h"
+    #import "DefineConstant.h"
+    #import "RKXMLReaderSerialization.h"
+    #import "AppCategory.h"
+    #import "Apprecord.h"
+    #import "SDImageView.h"
+    #import "APIManager.h"
+#endif
