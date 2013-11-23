@@ -223,7 +223,7 @@ int checkcat_id;
             [_Segment setTitle:temp.name forSegmentAtIndex:checkcat_id];
             [[APIManager sharedAPIManager] RK_RequestApiGetListAppByCategory:cat_id withContext:self];
             checkcat_id=0;
-            return;
+            break;
         }
         else if(checkcat_id==1) {
             AppCategory *temp  =  [self.MutableArrayListCategory objectAtIndex:checkcat_id];
@@ -232,7 +232,7 @@ int checkcat_id;
             [[APIManager sharedAPIManager] RK_RequestApiGetListAppByCategory:cat_id withContext:self];
             checkcat_id=cat_id;
             checkcat_id=1;
-            return;
+            break;
         }
         else if(checkcat_id==2) {
             AppCategory *temp  =  [self.MutableArrayListCategory objectAtIndex:checkcat_id];
@@ -240,10 +240,12 @@ int checkcat_id;
             [_Segment setTitle:temp.name forSegmentAtIndex:checkcat_id];
             [[APIManager sharedAPIManager] RK_RequestApiGetListAppByCategory:cat_id withContext:self];
             checkcat_id=2;
-            return;
+            break;
         }
         
     }
+    
+    [self updateBannerView];
 }
 - (void) actionsearch:(id)sender {
     NSLog(@"click search");
@@ -322,7 +324,7 @@ int checkcat_id;
 {
     //    NSLog(@"-----self.myScrollView.subviews.count = %d",self.myScrollView.subviews.count);
     if (self.bannerScrollView.subviews.count > 0) {
-        return;
+        [self.bannerScrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     }
     CGRect frame = self.bannerScrollView.frame;
     for (int i = 0; i < array.count; i++)
@@ -340,6 +342,22 @@ int checkcat_id;
     [self performSelector:@selector(executeChangeBanner) withObject:Nil afterDelay:TIME_CHANGE_BANNER];
 }
 
+-(void)updateBannerView
+{
+    AppCategory *temp = [_MutableArrayListCategory objectAtIndex:_Segment.selectedSegmentIndex];
+    if (temp.banner)
+    {
+        self.bannerView.hidden = NO;
+        self.Tableviewlistapp.contentInset = UIEdgeInsetsMake(162, 0, 0, 0);
+        self.Tableviewlistapp.scrollIndicatorInsets = self.Tableviewlistapp.contentInset;
+        [self addBanner:temp.banner];
+    } else {
+        self.bannerView.hidden = YES;
+        self.Tableviewlistapp.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+        self.Tableviewlistapp.scrollIndicatorInsets = self.Tableviewlistapp.contentInset;
+    }
+}
+
 
 #pragma mark -
 #pragma mark RKManageDelegate
@@ -350,8 +368,6 @@ int checkcat_id;
         self.MutableArrayListCategory = [NSMutableArray arrayWithArray:array];
         [self.Tableviewlistapp reloadData];
         [self processlistcatagory];
-        AppCategory *temp = [_MutableArrayListCategory objectAtIndex:_Segment.selectedSegmentIndex];
-        if (temp.banner)[self addBanner:temp.banner];
         return;
     } else if (request_id == ID_REQUEST_GET_LIST_APP_BY_CATEGORY ) {
         self.MutableArrayListApp = [NSMutableArray arrayWithArray:array];
