@@ -7,7 +7,9 @@
 //
 
 #import "ADNDetailViewController.h"
-@interface ADNDetailViewController()<RKManagerDelegate>
+#import "DetailScreenShotCell.h"
+
+@interface ADNDetailViewController()<RKManagerDelegate, DetailScreenShotCellProtocol>
 
 @end
 
@@ -31,24 +33,9 @@
         NSLog(@"%@",_detailapprecord.des);
    // NSLog(@"%@",_detailapprecord.name);
 }
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 1;
-}
+
 -(NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
 {
-//    if(_SegmentDetail.selectedSegmentIndex==0)
-//    {
-//
-//       
-//    }
-//    else if (_SegmentDetail.selectedSegmentIndex==1)
-//    {
-//        
-//        
-//       
-//    }
-
     return 4;
     
 }
@@ -61,37 +48,29 @@
        NSString *CellIdentifier   = CellIdentifier = @"Celldetail";
       CellDetailapp *cell = (CellDetailapp *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
  
-    if(!cell)
-    {
-        cell = [[CellDetailapp alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    };
+        if(!cell)
+        {
+            cell = [[CellDetailapp alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        };
     
-   // NSString *indexrow = [NSString stringWithFormat:@"%d",indexPath.row];
-    if (cell)
-    {
-        
+
         [cell setApprecorddetail:_detailapprecord];
         [cell getdetailcontent];
         [cell.btprice addTarget:self action:@selector(handleUpdateVersion:) forControlEvents:UIControlEventTouchUpInside];
-    }
+        
         return cell;
     }
-    
-    else if (indexPath.row==1)
+    else if (indexPath.row==1) // cell show app's screenshots
     {
-        NSString *CellIdentifier   = CellIdentifier = @"CellBanner";
-        CellBanner *cell = (CellBanner *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        NSString *CellIdentifier   = [[DetailScreenShotCell class] description];
+        DetailScreenShotCell *cell = (DetailScreenShotCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         if(!cell)
         {
-            cell = [[CellBanner alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        };
-        if (cell)
-        {
-            
-            [cell setDataSourceScrollView:_detailapprecord.images withKey:@"f"];
-//            [cell getdetailcontent];
+            cell = [[DetailScreenShotCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
+        cell.delegate = self;
+        [cell setObject:_detailapprecord.images];
         return cell;
     }
     else if (indexPath.row==2)
@@ -147,8 +126,11 @@
 #pragma mark TableViewDelegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 1) {
-        return 119;
+    if (indexPath.row == 0) {
+        return 105;
+    }
+    else if (indexPath.row == 1) {
+        return [DetailScreenShotCell tableView:tableView rowHeightForObject:nil];
     } else if (indexPath.row == 2) {
         return 134;
     }
@@ -192,6 +174,17 @@
     
     return html;
 }
+
+#pragma mark - DetailScreenShotCellProtocol
+-(void)screenShotCell:(DetailScreenShotCell *)cell didScroll:(UIScrollView *)scrollView
+{
+    // move screenshot cell to center of screen
+    CGFloat cellHeight = CGRectGetMinY(cell.frame) - (self.tableviewdetail.bounds.size.height - cell.bounds.size.height) / 2;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.tableviewdetail.contentOffset = CGPointMake(0, cellHeight);
+    }];
+}
+
 #pragma mark -
 #pragma mark RKManageDelegate callback method
 -(void)processResultResponseDictionaryMapping:(DictionaryMapping *)dictionary requestId:(int)request_id

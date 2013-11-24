@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		184DA1471841F2BE0058AED7 /* DetailScreenShotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184DA1461841F2BE0058AED7 /* DetailScreenShotCell.m */; };
 		18F216391840634D0073267C /* FXBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F216381840634D0073267C /* FXBlurView.m */; };
 		404B40E14AC94039996EC6F4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94EA78D505874D128A866318 /* libPods.a */; };
 		4F062C62183B11C300548728 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F062C61183B11C300548728 /* Foundation.framework */; };
@@ -86,6 +87,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		184DA1451841F2BE0058AED7 /* DetailScreenShotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailScreenShotCell.h; sourceTree = "<group>"; };
+		184DA1461841F2BE0058AED7 /* DetailScreenShotCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailScreenShotCell.m; sourceTree = "<group>"; };
 		18F216371840634D0073267C /* FXBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXBlurView.h; sourceTree = "<group>"; };
 		18F216381840634D0073267C /* FXBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXBlurView.m; sourceTree = "<group>"; };
 		4F062C5E183B11C300548728 /* ADN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ADN.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -407,6 +410,8 @@
 				E35889C9183F501C00139124 /* CellDescriptionappdetail.m */,
 				E35889CB183F55B800139124 /* Cellratingpoint.h */,
 				E35889CC183F55B800139124 /* Cellratingpoint.m */,
+				184DA1451841F2BE0058AED7 /* DetailScreenShotCell.h */,
+				184DA1461841F2BE0058AED7 /* DetailScreenShotCell.m */,
 			);
 			name = CustomCell;
 			sourceTree = "<group>";
@@ -613,6 +618,7 @@
 				4F5B824B183CA6BA0028BA51 /* ArrayMapping.m in Sources */,
 				4F5B8243183CA6500028BA51 /* APIManager.m in Sources */,
 				4F5B8267183CBB4A0028BA51 /* AppCategory.m in Sources */,
+				184DA1471841F2BE0058AED7 /* DetailScreenShotCell.m in Sources */,
 				4F5B8259183CAA850028BA51 /* NSString+SHA.m in Sources */,
 				E35889CD183F55B800139124 /* Cellratingpoint.m in Sources */,
 				4F5B8260183CB67E0028BA51 /* XMLReader.m in Sources */,
