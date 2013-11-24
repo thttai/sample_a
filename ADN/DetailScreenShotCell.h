@@ -20,6 +20,7 @@
 
 @property (weak, nonatomic) id<DetailScreenShotCellProtocol> delegate;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UILabel *infoLbl;
 @property (nonatomic, weak) id object;
 
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object;

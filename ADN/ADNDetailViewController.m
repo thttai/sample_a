@@ -70,7 +70,7 @@
             cell = [[DetailScreenShotCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
         cell.delegate = self;
-        [cell setObject:_detailapprecord.images];
+        [cell setObject:_detailapprecord];
         return cell;
     }
     else if (indexPath.row==2)

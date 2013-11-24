@@ -35,7 +35,7 @@
 
 +(CGFloat)tableView:(UITableView *)tableView rowHeightForObject:(id)object
 {
-    return 380;
+    return 400;
 }
 
 -(id)object
@@ -50,8 +50,9 @@
     // remove all current image
     [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
+    Apprecord *detailRecord = object;
     // add new screen shot
-    NSArray *arrImages = object;
+    NSArray *arrImages = detailRecord.images;
     CGFloat x = SCREENSHOT_PADDING;
     for (NSDictionary *dic in arrImages) {
         NSString *imageURL = dic[@"f"];
@@ -69,8 +70,38 @@
         [self.scrollView setContentSize:contentSize];
     }
     
+    NSString *downloadStr = [self stringForNumberDownload:detailRecord.downloads];
+    NSString *dateStr = [self dateStringForDate:detailRecord.date_add];
+    // info
+    self.infoLbl.text = [NSString stringWithFormat:@"Lượt tải: %@ | %@ | %@",downloadStr, dateStr, detailRecord.size];
+    
 }
 
+#pragma mark - Helper
+-(NSString*)stringForNumberDownload:(NSString*)downloadNumberStr
+{
+    NSInteger numDownload = [downloadNumberStr integerValue];
+    NSString *result = @"";
+    if (numDownload < 1000) {
+        result = downloadNumberStr;
+    }
+    else {
+        NSInteger i = numDownload / 1000;
+        NSInteger j = numDownload % 1000;
+        result = j == 0? [NSString stringWithFormat:@"%dk", i] : [NSString stringWithFormat:@"%dk+", i];
+        
+    }
+    return result;
+}
+
+-(NSString*)dateStringForDate:(NSString*)dateStr
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    NSDate *date = [formatter dateFromString:dateStr];
+    formatter.dateFormat = @"dd/mm/yyyy";
+    return [formatter stringFromDate:date];
+}
 #pragma mark - UIScrollViewDelegate
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView

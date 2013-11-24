@@ -174,28 +174,36 @@
                                 <rect key="frame" x="0.0" y="2" width="320" height="566"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DetailScreenShotCell" rowHeight="380" id="Hht-Y4-skB" customClass="DetailScreenShotCell">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="380"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DetailScreenShotCell" rowHeight="400" id="Hht-Y4-skB" customClass="DetailScreenShotCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="400"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Hht-Y4-skB" id="c1z-ku-MYW">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="379"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="399"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="FGt-dK-3UV">
                                                     <rect key="frame" x="0.0" y="15" width="320" height="350"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="Hht-Y4-skB" id="tL0-EO-b1F"/>
                                                     </connections>
                                                 </scrollView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ueU-ar-duM">
+                                                    <rect key="frame" x="0.0" y="372" width="320" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="infoLbl" destination="ueU-ar-duM" id="Uwy-UD-upe"/>
                                             <outlet property="scrollView" destination="FGt-dK-3UV" id="nqZ-OH-cOc"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CellBanner" rowHeight="119" id="HIX-cV-gTX" customClass="CellBanner">
-                                        <rect key="frame" x="0.0" y="402" width="320" height="119"/>
+                                        <rect key="frame" x="0.0" y="422" width="320" height="119"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HIX-cV-gTX" id="HRV-PF-bZj">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="118"/>
@@ -222,7 +230,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="0.0" reuseIdentifier="Celldetail" rowHeight="120" id="ZNC-y5-gQG" customClass="CellDetailapp">
-                                        <rect key="frame" x="0.0" y="521" width="320" height="120"/>
+                                        <rect key="frame" x="0.0" y="541" width="320" height="120"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZNC-y5-gQG" id="QYH-Rr-WHR">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="119"/>
@@ -265,7 +273,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CellDescriptionappdetail" rowHeight="134" id="iyB-ET-a24" customClass="CellDescriptionappdetail">
-                                        <rect key="frame" x="0.0" y="641" width="320" height="134"/>
+                                        <rect key="frame" x="0.0" y="661" width="320" height="134"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iyB-ET-a24" id="8sO-Nt-kPu">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="133"/>
@@ -291,7 +299,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cellratingpoint" id="jFY-Gt-GpO" customClass="Cellratingpoint">
-                                        <rect key="frame" x="0.0" y="775" width="320" height="157"/>
+                                        <rect key="frame" x="0.0" y="795" width="320" height="157"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jFY-Gt-GpO" id="bqQ-b5-EUz">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="156"/>
