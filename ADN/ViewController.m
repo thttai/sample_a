@@ -12,7 +12,6 @@
 #import "APIManager.h"
 #import "CellBanner.h"
 
-#define TIME_CHANGE_BANNER 5
 
 @interface ViewController ()<RKManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *bannerView;
@@ -21,8 +20,24 @@
 
 @end
 
-@implementation ViewController
-int checkcat_id;
+@implementation ViewController {
+    ENUM_ADN_CATEGORY_TYPE checkcat_id;
+}
+
+- (void)dealloc {
+    [_MutableArrayListApp removeAllObjects];
+    [_MutableArrayListAppseg1 removeAllObjects];
+    [_MutableArrayListAppseg2 removeAllObjects];
+    [_MutableArrayListAppseg3 removeAllObjects];
+    [_MutableArrayListCategory removeAllObjects];
+    
+    _MutableArrayListApp = nil;
+    _MutableArrayListAppseg1 = nil;
+    _MutableArrayListAppseg2 = nil;
+    _MutableArrayListAppseg3 = nil;
+    _MutableArrayListCategory = nil;
+}
+
 - (void)viewDidLoad
 {
      UIBarButtonItem *btdownload = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actiondownload:)];
@@ -44,32 +59,27 @@ int checkcat_id;
     self.segmentedView.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.97f];
 }
 
-#pragma mark tableViewDatasource
+-(void)viewWillAppear:(BOOL)animated
+{
+    
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - TableViewDatasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 1;
 }
+
 -(NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
 {
-    if(_Segment.selectedSegmentIndex==0)
-    {
-        //return array list 1
-        return [_MutableArrayListApp count];
-    }
-    else if (_Segment.selectedSegmentIndex==1)
-    {
-        //return array list 2
-        return [_MutableArrayListApp count];
-    }
-    else
-        //return array list 3
-        if (_Segment.selectedSegmentIndex==2)
-        {
-        return [_MutableArrayListApp count];
-        }
-    return 0;
-   
+    return [_MutableArrayListApp count];
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     NSString *CellIdentifier = @"Cell";
@@ -103,37 +113,33 @@ int checkcat_id;
     }
     return cell;
 }
-#pragma mark TableViewDelegate
+
+#pragma mark - TableViewDelegate
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 84;
+    return HOME_TABLE_CELL_HEIGHT;
 }
 
-- (IBAction)btsegemented:(id)sender {
-    switch (self.Segment.selectedSegmentIndex) {
-            
-        case 0:
-            checkcat_id=0;
-            [self processlistcatagory];
-            [_Tableviewlistapp reloadData];
-            break;
-        case 1:
-            checkcat_id=1;
-            [self processlistcatagory];
-            [_Tableviewlistapp reloadData];
-            break;
-        case 2:     
-            checkcat_id=2;
-            [self processlistcatagory];
-            [_Tableviewlistapp reloadData];
-            break;
-    }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    ADNDetailViewController *detail = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
+    // NSLog(@"----self.navigationController = %@", self.navigationController);
+    
+    Apprecord *temp = [self.MutableArrayListApp objectAtIndex:indexPath.row];
+    
+    [detail setDetailapprecord:temp];
+    
+    [self.navigationController pushViewController:detail animated:YES];
+    
 }
 
+#pragma mark - ScrollViewDelegate
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    NSLog(@"scrollViewDidEndDecelerating-0");
-    if (scrollView == self.bannerScrollView) {
+    //    NSLog(@"scrollViewDidEndDecelerating-0");
+    if (scrollView == self.bannerScrollView && !self.bannerView.hidden) {
         CGRect frame = self.bannerScrollView.frame;
         CGPoint contentOffset = self.bannerScrollView.contentOffset;
         int currentPage = contentOffset.x/frame.size.width;
@@ -149,17 +155,17 @@ int checkcat_id;
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    NSLog(@"scrollViewWillBeginDragging-1");
+//    NSLog(@"scrollViewWillBeginDragging-1");
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    NSLog(@"scrollViewDidEndDragging-2");
+//    NSLog(@"scrollViewDidEndDragging-2");
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    NSLog(@"scrollViewDidScroll-3 %f", scrollView.contentOffset.y);
+//    NSLog(@"scrollViewDidScroll-3 %f", scrollView.contentOffset.y);
     // update header position
     if (scrollView == self.Tableviewlistapp) {
         CGFloat offsetY = scrollView.contentOffset.y;
@@ -177,109 +183,85 @@ int checkcat_id;
             _bannerView.frame = r;
         }
     }
-    
-    
 }
--(void)viewWillAppear:(BOOL)animated
-{
+
+#pragma mark - View Actions
+- (IBAction)btsegemented:(id)sender {
+    checkcat_id = self.Segment.selectedSegmentIndex;
+    [self processlistcatagory];
+    [_Tableviewlistapp reloadData];
 
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
--(void)processlistcatagory
-{
-    
-    for (checkcat_id=checkcat_id; checkcat_id < [_MutableArrayListCategory count];){
-        int i;
-        for (i= 0; i < 3;i++)
-        {
-            AppCategory *temp  =  [self.MutableArrayListCategory objectAtIndex:i];
-            [_Segment setTitle:temp.name forSegmentAtIndex:i];
-        }
-        if(checkcat_id==0)
-        {
-            AppCategory *temp  =  [self.MutableArrayListCategory objectAtIndex:checkcat_id];
-            int cat_id = [temp.cat_id intValue];
-            [_Segment setTitle:temp.name forSegmentAtIndex:checkcat_id];
-            [[APIManager sharedAPIManager] RK_RequestApiGetListAppByCategory:cat_id withContext:self];
-            checkcat_id=0;
-            break;
-        }
-        else if(checkcat_id==1) {
-            AppCategory *temp  =  [self.MutableArrayListCategory objectAtIndex:checkcat_id];
-            int cat_id = [temp.cat_id intValue];
-            [_Segment setTitle:temp.name forSegmentAtIndex:checkcat_id];
-            [[APIManager sharedAPIManager] RK_RequestApiGetListAppByCategory:cat_id withContext:self];
-            checkcat_id=cat_id;
-            checkcat_id=1;
-            break;
-        }
-        else if(checkcat_id==2) {
-            AppCategory *temp  =  [self.MutableArrayListCategory objectAtIndex:checkcat_id];
-            int cat_id = [temp.cat_id intValue];
-            [_Segment setTitle:temp.name forSegmentAtIndex:checkcat_id];
-            [[APIManager sharedAPIManager] RK_RequestApiGetListAppByCategory:cat_id withContext:self];
-            checkcat_id=2;
-            break;
-        }
-        
-    }
-    
-    [self updateBannerView];
-}
+
 - (void) actionsearch:(id)sender {
     NSLog(@"click search");
     
-   }
-- (void) actiondownload:(id)sender {
-       NSLog(@"click download");
 }
+- (void) actiondownload:(id)sender {
+    NSLog(@"click download");
+}
+
 - (void)handleUpdateVersion:(id)sender
 {
     // get indexpath button
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.Tableviewlistapp];
     NSIndexPath *indexPath = [self.Tableviewlistapp indexPathForRowAtPoint:buttonPosition];
-   
-    Apprecord * temp = [self.MutableArrayListApp objectAtIndex:indexPath.row];    
+    
+    Apprecord * temp = [self.MutableArrayListApp objectAtIndex:indexPath.row];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:temp.official_link]];
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
-    ADNDetailViewController *detail = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
-    // NSLog(@"----self.navigationController = %@", self.navigationController);
-    
-    if(_Segment.selectedSegmentIndex==0)
-    {
-        Apprecord *temp = [self.MutableArrayListAppseg1 objectAtIndex:indexPath.row];
-        
-        [detail setDetailapprecord:temp];
-        
-    }
-    else if(_Segment.selectedSegmentIndex==1)
-    {
-        Apprecord *temp = [self.MutableArrayListAppseg2 objectAtIndex:indexPath.row];
-        
-        [detail setDetailapprecord:temp];
-    }
-    else if(_Segment.selectedSegmentIndex==2)
-    {
-        Apprecord *temp = [self.MutableArrayListAppseg3 objectAtIndex:indexPath.row];
-        
-        [detail setDetailapprecord:temp];
-    }
-    
-    [self.navigationController pushViewController:detail animated:YES];
 
+#pragma mark - Helper Methods
+
+-(void)processlistcatagory
+{
+    // Load data for correspond category ID
+    
+    BOOL isDataLoaded = NO;
+    switch (checkcat_id) {
+        case ENUM_ADN_CATEGORY_TYPE_FAVORITE: {
+            if ([self.MutableArrayListAppseg1 count] > 0) {
+                self.MutableArrayListApp = self.MutableArrayListAppseg1;
+                isDataLoaded = YES;
+            }
+            break;
+        }
+        case ENUM_ADN_CATEGORY_TYPE_DOWNLOAD: {
+            if ([self.MutableArrayListAppseg2 count] > 0) {
+                self.MutableArrayListApp = self.MutableArrayListAppseg2;
+                isDataLoaded = YES;
+            }
+            break;
+        }
+        case ENUM_ADN_CATEGORY_TYPE_TREND: {
+            if ([self.MutableArrayListAppseg3 count] > 0) {
+                self.MutableArrayListApp = self.MutableArrayListAppseg3;
+                isDataLoaded = YES;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+    
+    if (!isDataLoaded) {
+        AppCategory *temp  =  [self.MutableArrayListCategory objectAtIndex:checkcat_id];
+        int cat_id = [temp.cat_id intValue];
+        [_Segment setTitle:temp.name forSegmentAtIndex:checkcat_id];
+        [[APIManager sharedAPIManager] RK_RequestApiGetListAppByCategory:cat_id withContext:self];
+    }
+    
+    // Update banner view
+    [self updateBannerView];
 }
 
 #pragma mark - Banner Methods
 
 -(void)executeChangeBanner
 {
+    if (self.bannerView.hidden) {
+        return;
+    }
     CGRect frame = self.bannerScrollView.frame;
     CGPoint contentOffset = self.bannerScrollView.contentOffset;
     CGFloat xMax = frame.size.width * (self.bannerScrollView.subviews.count - 1);
@@ -294,6 +276,7 @@ int checkcat_id;
     [UIView animateWithDuration:0.5 animations:^{
         [self.bannerScrollView setContentOffset:contentOffset];
     } completion:^(BOOL finished) {
+        [NSObject cancelPreviousPerformRequestsWithTarget:self];
         [self performSelector:@selector(executeChangeBanner) withObject:Nil afterDelay:TIME_CHANGE_BANNER];
     }];
 }
@@ -322,6 +305,7 @@ int checkcat_id;
     self.pageControlView.currentPage = 0;
     self.bannerScrollView.pagingEnabled = YES;
     self.bannerScrollView.contentSize = CGSizeMake(frame.size.width * array.count, 0);//disable scroll vertical
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [self performSelector:@selector(executeChangeBanner) withObject:Nil afterDelay:TIME_CHANGE_BANNER];
 }
 
@@ -335,14 +319,15 @@ int checkcat_id;
         self.Tableviewlistapp.scrollIndicatorInsets = self.Tableviewlistapp.contentInset;
         [self addBanner:temp.banner];
         
+        // update banner position
+        [self scrollViewDidScroll:self.Tableviewlistapp];
+        
     } else {
         self.bannerView.hidden = YES;
         self.Tableviewlistapp.contentInset = UIEdgeInsetsMake(44, 0, 0, 0); // doesn't have banner view
         self.Tableviewlistapp.scrollIndicatorInsets = self.Tableviewlistapp.contentInset;
         
     }
-    // update banner position
-    [self scrollViewDidScroll:self.Tableviewlistapp];
 }
 
 #pragma mark -
@@ -352,57 +337,38 @@ int checkcat_id;
 {
     if (request_id == ID_REQUEST_GET_CATEGORY) {
         self.MutableArrayListCategory = [NSMutableArray arrayWithArray:array];
-        [self.Tableviewlistapp reloadData];
+        
+        // Fill text into Segment buttons
+        for (int i= 0; i < ENUM_ADN_CATEGORY_TYPE_NUM;i++) {
+            AppCategory *temp  =  [self.MutableArrayListCategory objectAtIndex:i];
+            [_Segment setTitle:temp.name forSegmentAtIndex:i];
+        }
+        
         [self processlistcatagory];
+        
+        [self.Tableviewlistapp reloadData];
         return;
     } else if (request_id == ID_REQUEST_GET_LIST_APP_BY_CATEGORY ) {
-        self.MutableArrayListApp = [NSMutableArray arrayWithArray:array];
-        NSArray *array1 = [NSArray arrayWithArray:_MutableArrayListApp];
-        
-        if  (checkcat_id==0)
-        {
-            NSArray *array2 = [NSArray arrayWithArray:_MutableArrayListAppseg1];
-            if ([array1 isEqualToArray:array2])
-            {
-             //no new data
-            }
-            else
-            {
-                _MutableArrayListAppseg1=_MutableArrayListApp;
+        switch (checkcat_id) {
+            case ENUM_ADN_CATEGORY_TYPE_FAVORITE: {
+                _MutableArrayListAppseg1 = [NSMutableArray arrayWithArray:array];
+                self.MutableArrayListApp = _MutableArrayListAppseg1;
                 [_Tableviewlistapp reloadData];
+                break;
             }
-            // checkcat_id=checkcat_id+1;
-            //[self processlistcatagory];
-        }
-        else if  (checkcat_id==1)
-        {
-            NSArray *array2 = [NSArray arrayWithArray:_MutableArrayListAppseg2];
-            if ([array1 isEqualToArray:array2])
-            {
-             //no new data
+            case ENUM_ADN_CATEGORY_TYPE_DOWNLOAD: {
+                _MutableArrayListAppseg2 = [NSMutableArray arrayWithArray:array];
+                self.MutableArrayListApp = _MutableArrayListAppseg2;
+                break;
             }
-            else
-            {
-                _MutableArrayListAppseg2=_MutableArrayListApp;
-                [_Tableviewlistapp reloadData];
+            case ENUM_ADN_CATEGORY_TYPE_TREND: {
+                _MutableArrayListAppseg3 = [NSMutableArray arrayWithArray:array];
+                self.MutableArrayListApp = _MutableArrayListAppseg3;
+                break;
             }
-
-                     // checkcat_id=checkcat_id+1;
-            //[self processlistcatagory];
-        }
-        else if  (checkcat_id==2)
-        {
-            NSArray *array2 = [NSArray arrayWithArray:_MutableArrayListAppseg3];
-            if ([array1 isEqualToArray:array2])
-            {
-                //no new data
+            default: {
+                break;
             }
-            else
-            {
-                _MutableArrayListAppseg3=_MutableArrayListApp;
-                [_Tableviewlistapp reloadData];
-            }
-
         }
         return;
     }

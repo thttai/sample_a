@@ -58,7 +58,7 @@
     // Get old Title font size
     CGSize oldTitleSize = [self.Title.text sizeWithFont:self.Title.font constrainedToSize:CGSizeMake(self.Title.frame.size.width, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
-    NSLog(@"-OLD----%f--%f",oldTitleSize.width,oldTitleSize.height);
+//    NSLog(@"-OLD----%f--%f",oldTitleSize.width,oldTitleSize.height);
 
     int numberOldTitleLine = self.rateView.frame.size.width == 0?0:1;
     if (oldTitleSize.height > 17) {
@@ -71,7 +71,7 @@
     // Get Title size
     CGSize titleSize = [self.Title.text sizeWithFont:self.Title.font constrainedToSize:CGSizeMake(self.Title.frame.size.width, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
-    NSLog(@"--New---%f--%f",titleSize.width,titleSize.height);
+//    NSLog(@"--New---%f--%f",titleSize.width,titleSize.height);
     
     // Adjust Title, Category, Stars based on Title number of line
     int numberTitleLine = 1;

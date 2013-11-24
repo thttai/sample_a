@@ -13,6 +13,17 @@
 #import "ADNDetailViewController.h"
 #import "FXBlurView.h"
 
+#define TIME_CHANGE_BANNER 5
+#define HOME_TABLE_CELL_HEIGHT 84
+
+typedef enum
+{
+    ENUM_ADN_CATEGORY_TYPE_FAVORITE = 0,
+    ENUM_ADN_CATEGORY_TYPE_DOWNLOAD,
+    ENUM_ADN_CATEGORY_TYPE_TREND,
+    ENUM_ADN_CATEGORY_TYPE_NUM
+}ENUM_ADN_CATEGORY_TYPE;
+
 @interface ViewController : UIViewController<UITableViewDelegate, UITableViewDataSource,UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *segmentedView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *Segment;
@@ -22,7 +33,7 @@
 @property (strong, nonatomic) NSMutableArray *MutableArrayListAppseg2;
 @property (strong, nonatomic) NSMutableArray *MutableArrayListAppseg3;
 @property (strong, nonatomic) NSMutableArray *MutableArrayListCategory;
-@property (strong, nonatomic) UIWebView *webView;
+//@property (strong, nonatomic) UIWebView *webView;
 @property (strong, nonatomic) Apprecord *apprecord;
  
 - (IBAction)btsegemented:(id)sender;
