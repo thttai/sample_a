@@ -352,24 +352,24 @@
         switch (checkcat_id) {
             case ENUM_ADN_CATEGORY_TYPE_FAVORITE: {
                 _MutableArrayListAppseg1 = [NSMutableArray arrayWithArray:array];
-                self.MutableArrayListApp = _MutableArrayListAppseg1;
-                [_Tableviewlistapp reloadData];
+                _MutableArrayListApp = _MutableArrayListAppseg1;
                 break;
             }
             case ENUM_ADN_CATEGORY_TYPE_DOWNLOAD: {
                 _MutableArrayListAppseg2 = [NSMutableArray arrayWithArray:array];
-                self.MutableArrayListApp = _MutableArrayListAppseg2;
+                _MutableArrayListApp = _MutableArrayListAppseg2;
                 break;
             }
             case ENUM_ADN_CATEGORY_TYPE_TREND: {
                 _MutableArrayListAppseg3 = [NSMutableArray arrayWithArray:array];
-                self.MutableArrayListApp = _MutableArrayListAppseg3;
+                _MutableArrayListApp = _MutableArrayListAppseg3;
                 break;
             }
             default: {
                 break;
             }
         }
+        [_Tableviewlistapp reloadData];
         return;
     }
 }
