@@ -90,7 +90,7 @@
           cell = [[Celllistapp alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     };
     
-    NSString *indexrow = [NSString stringWithFormat:@"%d",(int)indexPath.row];
+    NSString *indexrow = [NSString stringWithFormat:@"%d",(int)indexPath.row + 1];
     if (cell)
     {
         if ([self.searchDisplayController isActive])
