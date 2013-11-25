@@ -265,12 +265,12 @@ static APIManager* _sharedMySingleton = nil;
 -(void)RK_RequestApiGetListAppByCategory:(int)cat_id withContext:(id)context_id
 {
     NSString *url = [NSString stringWithFormat:ADN_API_GET_LIST_APP_BY_CATEGORY,ROOT_SERVER, cat_id];
-    [self RK_RequestAPIGetListApp:url withContext:context_id];
+    [self RK_RequestAPIGetListApp:url requestID:ID_REQUEST_GET_LIST_APP_BY_CATEGORY withContext:context_id];
 }
 -(void)RK_RequestApiGetListAppBySearchKey:(NSString *)searchKey withContext:(id)context_id
 {
     NSString *url = [NSString stringWithFormat:ADN_API_GET_LIST_APP_BY_SEARCH_KEY,ROOT_SERVER, searchKey];
-    [self RK_RequestAPIGetListApp:url withContext:context_id];
+    [self RK_RequestAPIGetListApp:url requestID:ID_REQUEST_GET_LIST_APP_BY_SEARCH_KEY withContext:context_id];
 }
 
 -(void)RK_RequestApiGetAppDetail:(NSString *)appName appID:(NSString *)appID withContext:(id)context_id
@@ -279,7 +279,7 @@ static APIManager* _sharedMySingleton = nil;
     [self RK_RequestDictionaryMappingResponseWithURL:url postData:nil keyPath:@"result" withContext:context_id requestId:ID_REQUEST_GET_APP_DETAIL];
 }
 
--(void)RK_RequestAPIGetListApp:(NSString *)url withContext:(id)context_id
+-(void)RK_RequestAPIGetListApp:(NSString *)url requestID:(int)request_id withContext:(id)context_id
 {
     //---------------------------------//
     RKObjectMapping *category = [RKObjectMapping mappingForClass:[Apprecord class]];
@@ -305,7 +305,7 @@ static APIManager* _sharedMySingleton = nil;
                                                    @"d_folder" : @"d_folder",
                                                    @"ver_c" : @"ver_c"}];
     RKResponseDescriptor *locationDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:category method:RKRequestMethodAny pathPattern:nil keyPath:@"result" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    [self RK_SendRequestAPI_Descriptor:locationDescriptor withURL:[NSURL URLWithString:url] postData:nil keyPost:nil withContext:context_id requestId:ID_REQUEST_GET_LIST_APP_BY_CATEGORY];
+    [self RK_SendRequestAPI_Descriptor:locationDescriptor withURL:[NSURL URLWithString:url] postData:nil keyPost:nil withContext:context_id requestId:request_id];
 }
 @end
 

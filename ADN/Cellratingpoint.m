@@ -40,11 +40,11 @@
     _lbso3.text= [[array objectAtIndex:2] stringValue];
     _lbso4.text= [[array objectAtIndex:3] stringValue];
     _lbso5.text= [[array objectAtIndex:4] stringValue];
-    int so1 = [[array objectAtIndex:4] intValue];
-    int so2 = [[array objectAtIndex:3] intValue];
+    int so1 = [[array objectAtIndex:0] intValue];
+    int so2 = [[array objectAtIndex:1] intValue];
     int so3 = [[array objectAtIndex:2] intValue];
-    int so4 = [[array objectAtIndex:1] intValue];
-    int so5 = [[array objectAtIndex:0] intValue];
+    int so4 = [[array objectAtIndex:3] intValue];
+    int so5 = [[array objectAtIndex:4] intValue];
     int total = so1+so2+so3+so4+so5;
      _lbtotal.text = [NSString stringWithFormat:@"%d", total];
     if (total ==0)

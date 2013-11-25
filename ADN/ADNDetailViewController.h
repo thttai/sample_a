@@ -12,7 +12,10 @@
 #import <QuartzCore/QuartzCore.h>
 #import "CellDescriptionappdetail.h"
 #import "Cellratingpoint.h"
+#import "CellDescriptionappdetail.h"
 @interface ADNDetailViewController : UIViewController<UITableViewDelegate, UITableViewDataSource,UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableviewdetail;
+@property  float heightcelldescription;
 @property (strong, nonatomic) Apprecord *detailapprecord;
+@property (strong, nonatomic) NSString *titlenav;
 @end

@@ -39,6 +39,7 @@
 }
 -(void)getdetailcontent
 {
+    self.lbdev.text=_apprecorddetail.dev_n;
     self.lbtitle.text =_apprecorddetail.name;
     [self.btprice setTitle:@"Free" forState:UIControlStateNormal];
     _btprice.layer.borderWidth=1;

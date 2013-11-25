@@ -33,8 +33,8 @@ typedef enum
 @property (strong, nonatomic) NSMutableArray *MutableArrayListAppseg2;
 @property (strong, nonatomic) NSMutableArray *MutableArrayListAppseg3;
 @property (strong, nonatomic) NSMutableArray *MutableArrayListCategory;
-//@property (strong, nonatomic) UIWebView *webView;
 @property (strong, nonatomic) Apprecord *apprecord;
+@property (weak, nonatomic) IBOutlet UISearchBar *mySearchBar;
  
 - (IBAction)btsegemented:(id)sender;
 

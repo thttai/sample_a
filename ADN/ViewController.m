@@ -13,7 +13,8 @@
 #import "CellBanner.h"
 
 
-@interface ViewController ()<RKManagerDelegate>
+@interface ViewController ()<RKManagerDelegate, UISearchDisplayDelegate, UISearchBarDelegate>
+@property (nonatomic, strong) NSMutableArray *searchResults;
 @property (weak, nonatomic) IBOutlet UIView *bannerView;
 @property (weak, nonatomic) IBOutlet UIScrollView *bannerScrollView;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControlView;
@@ -40,9 +41,9 @@
 
 - (void)viewDidLoad
 {
-     UIBarButtonItem *btdownload = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actiondownload:)];
+//     UIBarButtonItem *btdownload = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actiondownload:)];
     UIBarButtonItem *btsearch = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(actionsearch:)];
-    NSArray *myButtonArray = [[NSArray alloc] initWithObjects: btdownload,btsearch, nil];
+    NSArray *myButtonArray = [[NSArray alloc] initWithObjects: btsearch, nil];
     self.navigationItem.rightBarButtonItems = myButtonArray;
     checkcat_id=0;
     _MutableArrayListApp = [[NSMutableArray alloc]init];
@@ -54,15 +55,11 @@
     [super viewDidLoad];
     [[self Tableviewlistapp]setDelegate:self];
     [[self Tableviewlistapp]setDataSource:self];
-    
     // set blur radius for segmented view
     self.segmentedView.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.97f];
+    [FXBlurView setBlurEnabled:YES];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    
-}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -77,13 +74,16 @@
 
 -(NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
 {
+    if ([self.searchDisplayController isActive]) {
+        return [_searchResults count];
+    }
     return [_MutableArrayListApp count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     NSString *CellIdentifier = @"Cell";
-    Celllistapp *cell = (Celllistapp *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    Celllistapp *cell = (Celllistapp *)[_Tableviewlistapp dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
   
     if(!cell)
     {
@@ -93,23 +93,21 @@
     NSString *indexrow = [NSString stringWithFormat:@"%d",(int)indexPath.row];
     if (cell)
     {
-        if(_Segment.selectedSegmentIndex==0)
+        if ([self.searchDisplayController isActive])
+        {
+            [cell setApprecord:[self.searchResults objectAtIndex:indexPath.row]];
+        }
+        else
         {
             [cell setApprecord:[self.MutableArrayListApp objectAtIndex:indexPath.row]];
-            [cell CustomCell:indexrow];
-            [cell.btPrice addTarget:self action:@selector(handleUpdateVersion:) forControlEvents:UIControlEventTouchUpInside];
-
+            if(_Segment.selectedSegmentIndex == 0)
+            {
+                [cell.btPrice addTarget:self action:@selector(handleUpdateVersion:) forControlEvents:UIControlEventTouchUpInside];
+            }
         }
-        else if(_Segment.selectedSegmentIndex==1)
-        {
-            [cell setApprecord:[self.MutableArrayListApp objectAtIndex:indexPath.row]];
-            [cell CustomCell:indexrow];
-        }
-        else if(_Segment.selectedSegmentIndex==2)
-        {
-            [cell setApprecord:[self.MutableArrayListApp objectAtIndex:indexPath.row]];
-            [cell CustomCell:indexrow];
-        }
+        [cell CustomCell:indexrow];
+        [cell setAccessoryType:UITableViewCellAccessoryNone];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     }
     return cell;
 }
@@ -121,25 +119,39 @@
     return HOME_TABLE_CELL_HEIGHT;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ADNDetailViewController *detail = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
     // NSLog(@"----self.navigationController = %@", self.navigationController);
     
     Apprecord *temp = [self.MutableArrayListApp objectAtIndex:indexPath.row];
     
+    if ([self.searchDisplayController isActive]) {
+        temp = [self.searchResults objectAtIndex:indexPath.row];
+    }
+    
     [detail setDetailapprecord:temp];
-    
+    if(_Segment.selectedSegmentIndex == 0)
+    {
+      [detail setTitlenav:[_Segment titleForSegmentAtIndex:0]];
+    }
+    else if(_Segment.selectedSegmentIndex == 1)
+    {
+          [detail setTitlenav:[_Segment titleForSegmentAtIndex:1]];
+    }
+    else if(_Segment.selectedSegmentIndex == 2)
+    {
+        [detail setTitlenav:[_Segment titleForSegmentAtIndex:2]];
+    }
     [self.navigationController pushViewController:detail animated:YES];
-    
 }
 
 #pragma mark - ScrollViewDelegate
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    //    NSLog(@"scrollViewDidEndDecelerating-0");
-    if (scrollView == self.bannerScrollView && !self.bannerView.hidden) {
+    if (scrollView == self.bannerScrollView && !self.bannerView.hidden)
+    {
         CGRect frame = self.bannerScrollView.frame;
         CGPoint contentOffset = self.bannerScrollView.contentOffset;
         int currentPage = contentOffset.x/frame.size.width;
@@ -194,11 +206,14 @@
 }
 
 - (void) actionsearch:(id)sender {
-    NSLog(@"click search");
-    
+//    NSLog(@"click search");
+    [self.mySearchBar setHidden:NO];
+    [self.mySearchBar becomeFirstResponder];
+    [self.searchDisplayController setSearchResultsDelegate:self];
+    [self.searchDisplayController setSearchResultsDataSource:self];
 }
 - (void) actiondownload:(id)sender {
-    NSLog(@"click download");
+//    NSLog(@"click download");
 }
 
 - (void)handleUpdateVersion:(id)sender
@@ -345,8 +360,6 @@
         }
         
         [self processlistcatagory];
-        
-        [self.Tableviewlistapp reloadData];
         return;
     } else if (request_id == ID_REQUEST_GET_LIST_APP_BY_CATEGORY ) {
         switch (checkcat_id) {
@@ -369,9 +382,80 @@
                 break;
             }
         }
-        [_Tableviewlistapp reloadData];
-        return;
     }
+    else if (request_id == ID_REQUEST_GET_LIST_APP_BY_SEARCH_KEY)
+    {
+        if (!self.searchResults) {
+            self.searchResults = [[NSMutableArray alloc] init];
+        } else {
+            [self.searchResults removeAllObjects];
+        }
+        _searchResults = [NSMutableArray arrayWithArray:array];
+    }
+    [_Tableviewlistapp reloadData];
+}
+
+#pragma mark -
+#pragma mark processing search
+#pragma mark -
+
+#pragma mark Content Filtering
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+	// Update the filtered array based on the search text and scope.
+	
+//    // Remove all objects from the filtered search array
+    if (!self.searchResults) {
+        self.searchResults = [[NSMutableArray alloc] init];
+    } else {
+        [self.searchResults removeAllObjects];
+    }
+    
+	// Filter the array using NSPredicate
+    // Further filter the array with the scope
+    NSPredicate *scopePredicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@",searchText];
+    NSArray *temp = [_MutableArrayListApp filteredArrayUsingPredicate:scopePredicate];
+    _searchResults = [NSMutableArray arrayWithArray:temp];
+    [self.Tableviewlistapp reloadData];
+}
+
+#pragma mark UISearchBarDelegate
+//-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+//{
+////    if (![self.searchResults isKindOfClass:[NSMutableArray class]] || self.searchResults.count == 0) {
+//        [[APIManager sharedAPIManager] RK_RequestApiGetListAppBySearchKey:self.mySearchBar.text withContext:self];
+////    }
+//}
+
+
+#pragma mark - UISearchDisplayController Delegate Methods
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    // Tells the table data source to reload when text changes
+    [self filterContentForSearchText:searchString scope:nil];
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
+}
+
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    // Tells the table data source to reload when scope bar selection changes
+    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:nil];
+//     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
+}
+
+
+- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
+{
+    [self.mySearchBar setHidden:YES];
+    [_Tableviewlistapp reloadData];
 }
 
 @end

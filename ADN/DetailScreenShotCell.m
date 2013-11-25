@@ -56,7 +56,7 @@
     CGFloat x = SCREENSHOT_PADDING;
     for (NSDictionary *dic in arrImages) {
         NSString *imageURL = dic[@"f"];
-        UIImageView *imageView = [[ UIImageView alloc] initWithFrame:CGRectMake(x, 0, SCREENSHOT_WIDTH, SCREENSHOT_HEIGHT)];
+        SDImageView *imageView = [[ SDImageView alloc] initWithFrame:CGRectMake(x, 0, SCREENSHOT_WIDTH, SCREENSHOT_HEIGHT)];
         [imageView setImageWithURL:[NSURL URLWithString:imageURL]];
         [self.scrollView addSubview:imageView];
         

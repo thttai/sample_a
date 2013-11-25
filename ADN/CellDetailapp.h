@@ -16,5 +16,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *downloadNumLbl;
 @property (strong, nonatomic) DYRateView *rateView;
 @property (strong, nonatomic) Apprecord *apprecorddetail;
+@property (strong, nonatomic) IBOutlet UILabel *lbdev;
 -(void)getdetailcontent;
 @end

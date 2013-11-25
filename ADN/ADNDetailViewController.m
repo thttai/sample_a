@@ -10,11 +10,14 @@
 #import "DetailScreenShotCell.h"
 
 @interface ADNDetailViewController()<RKManagerDelegate, DetailScreenShotCellProtocol>
+{
+CellDescriptionappdetail *myClass;
+}
 
 @end
-
+int checkdescription=1;
 @implementation ADNDetailViewController
-
+@synthesize titlenav;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -27,10 +30,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _heightcelldescription= 135;
+    self.navigationController.navigationBar.topItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:titlenav style:UIBarButtonItemStylePlain target:nil action:nil];
     [[self tableviewdetail]setDelegate:self];
     [[self tableviewdetail]setDataSource:self];
-    [[APIManager sharedAPIManager] RK_RequestApiGetAppDetail:self.detailapprecord.package appID:self.detailapprecord.app_id withContext:self];
-        NSLog(@"%@",_detailapprecord.des);
+    if (![_detailapprecord.des isKindOfClass:[NSString class]] || _detailapprecord.des.length == 0) {
+        [[APIManager sharedAPIManager] RK_RequestApiGetAppDetail:self.detailapprecord.package appID:self.detailapprecord.app_id withContext:self];
+    }
+//        NSLog(@"%@",_detailapprecord.des);
    // NSLog(@"%@",_detailapprecord.name);
 }
 
@@ -40,9 +47,6 @@
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    
-    
     if (indexPath.row==0)
     {
        NSString *CellIdentifier   = CellIdentifier = @"Celldetail";
@@ -75,27 +79,19 @@
     }
     else if (indexPath.row==2)
     {
-        NSString *CellIdentifier   = CellIdentifier = @"CellDescriptionappdetail";
+        NSString *CellIdentifier =@"CellDescriptionappdetail";
        CellDescriptionappdetail *cell = (CellDescriptionappdetail *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        
-        if(!cell)
+        cell.delegate=self;
+              if(!cell)
         {
             cell = [[CellDescriptionappdetail alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         };
         
-        // NSString *indexrow = [NSString stringWithFormat:@"%d",indexPath.row];
+        
         if (cell)
         {
             
-//            NSArray *paragraphs = [_detailapprecord.des componentsSeparatedByString: @"<p>"]; // still includes </p>
-//            for (NSString *singleParagraph in paragraphs) {
-//                
-//               singleParagraph = [paragraphs
-//            }
-//            NSLog(@"%@",_detailapprecord.des);
-          
             [cell getdescription:[self  convertHTML:_detailapprecord.des]];
-            
         }
         return cell;
     }
@@ -127,22 +123,16 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        return 105;
+        return 120;
     }
     else if (indexPath.row == 1) {
         return [DetailScreenShotCell tableView:tableView rowHeightForObject:nil];
     } else if (indexPath.row == 2) {
-        return 134;
+        
+        return _heightcelldescription;
+        
     }
     return 157;
-}
-
-
-- (IBAction)btsegemented:(id)sender {
-//    switch (self.SegmentDetail.selectedSegmentIndex) {
-//            
-//            NSLog(@"Changesegment");
-//    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -150,13 +140,21 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 - (void)handleUpdateVersion:(id)sender
 {
     // get indexpath button
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_detailapprecord.official_link]];
 }
--(NSString *)convertHTML:(NSString *)html {
-    
+
+- (void)taskComplete:(float)complete;
+{
+    _heightcelldescription =complete;
+    [_tableviewdetail reloadData];
+}
+
+-(NSString *)convertHTML:(NSString *)html
+{
     NSScanner *myScanner;
     NSString *text = nil;
     myScanner = [NSScanner scannerWithString:html];
@@ -175,14 +173,33 @@
     return html;
 }
 
+
 #pragma mark - DetailScreenShotCellProtocol
 -(void)screenShotCell:(DetailScreenShotCell *)cell didScroll:(UIScrollView *)scrollView
 {
     // move screenshot cell to center of screen
-    CGFloat cellHeight = CGRectGetMinY(cell.frame) - (self.tableviewdetail.bounds.size.height - cell.bounds.size.height) / 2;
+    CGFloat cellHeight = [self heightToScrollTable:_tableviewdetail inRow:1];
     [UIView animateWithDuration:0.3 animations:^{
         self.tableviewdetail.contentOffset = CGPointMake(0, cellHeight);
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    checkdescription=1;
+}
+
+-(CGFloat)heightToScrollTable:(UITableView *)myTable inRow:(int)section
+{
+    if (myTable == nil || section == 0) {
+        return 0;
+    }
+    
+    NSInteger height = 0;
+    for (int i = 0; i < section; i++) {
+        height += [self tableView:myTable heightForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+    }
+    return height;
 }
 
 #pragma mark -
@@ -199,5 +216,6 @@
     }
     [self.tableviewdetail reloadData];
 }
+
 
 @end
