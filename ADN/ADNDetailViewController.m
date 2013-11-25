@@ -125,7 +125,7 @@ CellDescriptionappdetail *myClass;
         return 120;
     }
     else if (indexPath.row == 1) {
-        return [DetailScreenShotCell tableView:tableView rowHeightForObject:nil];
+        return [DetailScreenShotCell tableView:tableView rowHeightForObject:_detailapprecord];
     } else if (indexPath.row == 2) {
         
         NSDictionary *tempDic = [CellDescriptionappdetail tableView:tableView rowHeightForObject:[self  convertHTML:_detailapprecord.des] forStatus:_descriptionCellStatus];

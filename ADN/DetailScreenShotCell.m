@@ -38,6 +38,7 @@
 
 +(CGFloat)tableView:(UITableView *)tableView rowHeightForObject:(id)object
 {
+    Apprecord *detailRecord = object;
     return 400;
 }
 
@@ -60,7 +61,18 @@
     for (NSDictionary *dic in arrImages) {
         NSString *imageURL = dic[@"f"];
         SDImageView *imageView = [[ SDImageView alloc] initWithFrame:CGRectMake(x, 0, SCREENSHOT_WIDTH, SCREENSHOT_HEIGHT)];
-        [imageView setImageWithURL:[NSURL URLWithString:imageURL]];
+        __weak SDImageView *tempImgView = imageView;
+        [imageView setImageWithURL:[NSURL URLWithString:imageURL] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            // rotate image if needed
+            if (!error) {
+                CGSize imgSize = image.size;
+                if (imgSize.width > imgSize.height) {
+                    tempImgView.image = [[UIImage alloc] initWithCGImage: image.CGImage
+                                                                         scale: 1.0
+                                                                   orientation: UIImageOrientationLeft];
+                }
+            }
+        }];
         [self.scrollView addSubview:imageView];
         
         // increase x position
@@ -105,11 +117,11 @@
     formatter.dateFormat = @"dd/mm/yyyy";
     return [formatter stringFromDate:date];
 }
+
 #pragma mark - UIScrollViewDelegate
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    NSLog(@"- %f", scrollView.contentOffset.x);
     if (self.delegate && [self.delegate respondsToSelector:@selector(screenShotCell:didScroll:)]) {
         [self.delegate screenShotCell:self didScroll:scrollView];
     }
@@ -130,10 +142,11 @@
         return;
     }
     
+    CGFloat targetX = MAX(minOffset,MIN(maxOffset, targetContentOffset->x));
+    NSInteger numpage = (targetX - minOffset)/offsetStep;
+    
     if (velocity.x == 0) {
-        CGFloat targetX = MAX(minOffset,MIN(maxOffset, targetContentOffset->x));
         
-        NSInteger numpage = (targetX - minOffset)/offsetStep;
         CGFloat delta = targetX - offsetStep * numpage;
         
         if (ABS(delta) > offsetStep/2) {
@@ -143,23 +156,7 @@
             baseOffset = MAX(minOffset, offsetStep * numpage + 7);
         }
         
-        
-//        CGFloat diff = targetX - baseOffset;
-//        
-//        if (ABS(diff) > offsetStep/2) {
-//            if (diff > 0) {
-//                //going left
-//                baseOffset = MIN(maxOffset, baseOffset + offsetStep);
-//            } else {
-//                //going right
-//                baseOffset = MAX(minOffset, baseOffset - offsetStep);
-//            }
-//        }
     } else {
-        CGFloat targetX = MAX(minOffset,MIN(maxOffset, targetContentOffset->x));
-        
-        NSInteger numpage = (targetX - minOffset)/offsetStep;
-        
         if (velocity.x > 0) {
             baseOffset = MIN(maxOffset, offsetStep * (numpage + 1) + 7);
         } else {
