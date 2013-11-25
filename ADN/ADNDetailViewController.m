@@ -12,10 +12,11 @@
 @interface ADNDetailViewController()<RKManagerDelegate, DetailScreenShotCellProtocol>
 {
 CellDescriptionappdetail *myClass;
+    enumDescriptionCellStatus _descriptionCellStatus;
 }
 
 @end
-int checkdescription=1;
+
 @implementation ADNDetailViewController
 @synthesize titlenav;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -30,7 +31,9 @@ int checkdescription=1;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _heightcelldescription= 135;
+    _descriptionCellStatus = enumDescriptionCellStatus_Num;
+    self.tableviewdetail.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+    
     self.navigationController.navigationBar.topItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:titlenav style:UIBarButtonItemStylePlain target:nil action:nil];
     [[self tableviewdetail]setDelegate:self];
     [[self tableviewdetail]setDataSource:self];
@@ -43,7 +46,7 @@ int checkdescription=1;
 
 -(NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return [_detailapprecord.rate_c integerValue] == 0 ? 3 : 4;
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -87,12 +90,8 @@ int checkdescription=1;
             cell = [[CellDescriptionappdetail alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         };
         
-        
-        if (cell)
-        {
-            
-            [cell getdescription:[self  convertHTML:_detailapprecord.des]];
-        }
+        [cell setObject:[self  convertHTML:_detailapprecord.des] forState:_descriptionCellStatus];
+//        [cell getdescription:[self  convertHTML:_detailapprecord.des]];
         return cell;
     }
     else if (indexPath.row==3)
@@ -129,8 +128,9 @@ int checkdescription=1;
         return [DetailScreenShotCell tableView:tableView rowHeightForObject:nil];
     } else if (indexPath.row == 2) {
         
-        return _heightcelldescription;
-        
+        NSDictionary *tempDic = [CellDescriptionappdetail tableView:tableView rowHeightForObject:[self  convertHTML:_detailapprecord.des] forStatus:_descriptionCellStatus];
+        _descriptionCellStatus = [tempDic[@"status"] integerValue];
+        return [tempDic[@"height"] floatValue];
     }
     return 157;
 }
@@ -147,9 +147,9 @@ int checkdescription=1;
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_detailapprecord.official_link]];
 }
 
-- (void)taskComplete:(float)complete;
+- (void)statusChanged:(enumDescriptionCellStatus)status
 {
-    _heightcelldescription =complete;
+    _descriptionCellStatus = status;
     [_tableviewdetail reloadData];
 }
 
@@ -186,7 +186,7 @@ int checkdescription=1;
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    checkdescription=1;
+
 }
 
 -(CGFloat)heightToScrollTable:(UITableView *)myTable inRow:(int)section

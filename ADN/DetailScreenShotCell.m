@@ -13,6 +13,9 @@
 #define SCREENSHOT_PADDING 14
 
 @implementation DetailScreenShotCell
+{
+    CGFloat baseOffset;
+}
 @synthesize object = __object;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -66,7 +69,7 @@
     }
     
     if (arrImages) {
-        CGSize contentSize = CGSizeMake(arrImages.count * (SCREENSHOT_WIDTH + SCREENSHOT_PADDING), 0);
+        CGSize contentSize = CGSizeMake(arrImages.count * (SCREENSHOT_WIDTH + SCREENSHOT_PADDING) + 14, 0);
         [self.scrollView setContentSize:contentSize];
     }
     
@@ -106,9 +109,65 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    NSLog(@"- %f", scrollView.contentOffset.x);
     if (self.delegate && [self.delegate respondsToSelector:@selector(screenShotCell:didScroll:)]) {
         [self.delegate screenShotCell:self didScroll:scrollView];
     }
+}
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+     baseOffset = scrollView.contentOffset.x;
+}
+-(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    CGFloat maxOffset = scrollView.contentSize.width - scrollView.bounds.size.width;
+    CGFloat minOffset = targetContentOffset->x < (SCREENSHOT_WIDTH/2 + 14.0) ? 0 : 7;
+    
+    CGFloat offsetStep = SCREENSHOT_WIDTH + 14;
+    
+    if (targetContentOffset->x == 0) {
+        return;
+    }
+    
+    if (velocity.x == 0) {
+        CGFloat targetX = MAX(minOffset,MIN(maxOffset, targetContentOffset->x));
+        
+        NSInteger numpage = (targetX - minOffset)/offsetStep;
+        CGFloat delta = targetX - offsetStep * numpage;
+        
+        if (ABS(delta) > offsetStep/2) {
+            baseOffset = MIN(maxOffset, offsetStep * (numpage + 1) + 7);
+        }
+        else {
+            baseOffset = MAX(minOffset, offsetStep * numpage + 7);
+        }
+        
+        
+//        CGFloat diff = targetX - baseOffset;
+//        
+//        if (ABS(diff) > offsetStep/2) {
+//            if (diff > 0) {
+//                //going left
+//                baseOffset = MIN(maxOffset, baseOffset + offsetStep);
+//            } else {
+//                //going right
+//                baseOffset = MAX(minOffset, baseOffset - offsetStep);
+//            }
+//        }
+    } else {
+        CGFloat targetX = MAX(minOffset,MIN(maxOffset, targetContentOffset->x));
+        
+        NSInteger numpage = (targetX - minOffset)/offsetStep;
+        
+        if (velocity.x > 0) {
+            baseOffset = MIN(maxOffset, offsetStep * (numpage + 1) + 7);
+        } else {
+            baseOffset = MAX(minOffset, offsetStep * numpage + 7);
+        }
+    }
+    
+    targetContentOffset->x = baseOffset;
 }
 
 @end
