@@ -28,6 +28,7 @@
         self.rateView.alignment = RateViewAlignmentLeft;
         self.rateView.starSize = 9.0f;
         [self.contentView addSubview:self.rateView];
+        heighOneRowTitle = 0;
     }
     return self;
 }
@@ -42,7 +43,6 @@
 {
     [super prepareForReuse];
     UIImage *placeholder = [UIImage imageNamed:@"placeholder.png"];
-    _imageviewlistapp.layer.cornerRadius=3;
     _imageviewlistapp.clipsToBounds = YES;
     _imageviewlistapp.layer.cornerRadius = 15;
     [_imageviewlistapp setImage:placeholder];
@@ -51,7 +51,9 @@
 //customCell listapp
 -(void)CustomCell: (NSString *) number 
 {
-    
+    if (heighOneRowTitle == 0) {
+        heighOneRowTitle = [@"ABC" sizeWithFont:self.Title.font].height;
+    }
     //NSLog("%@",Apprecord.title);
      //Add label Number to list app
     
@@ -61,7 +63,7 @@
 //    NSLog(@"-OLD----%f--%f",oldTitleSize.width,oldTitleSize.height);
 
     int numberOldTitleLine = self.rateView.frame.size.width == 0?0:1;
-    if (oldTitleSize.height > 17) {
+    if (oldTitleSize.height > heighOneRowTitle) {
         numberOldTitleLine = 2;
     }
     
@@ -75,7 +77,7 @@
     
     // Adjust Title, Category, Stars based on Title number of line
     int numberTitleLine = 1;
-    if (titleSize.height > 17) {
+    if (titleSize.height > heighOneRowTitle) {
         numberTitleLine = 2;
     }
     
@@ -103,15 +105,23 @@
     //Add Button Price to list app
    // [self.Rate setText:_apprecord.rate];
      [self.btPrice setTitle:@"Free" forState:UIControlStateNormal];
-    _btPrice.layer.borderWidth=1;
-    _btPrice.layer.borderColor = [UIColor blueColor].CGColor;
-    _btPrice.layer.cornerRadius = 4;
     //Add image to list app to list app
     [self.imageviewlistapp setImageWithURL:[NSURL URLWithString:_apprecord.icon]];
-//    CGRect frameCate = self.categoryapp.frame;
-//    DYRateView *rateView = [[DYRateView alloc] initWithFrame:CGRectMake(frameCate.origin.x, frameCate.origin.y + frameCate.size.height, frameCate.size.width, frameCate.size.height)];
-    //self.rateView.frame = CGRectMake(frameCate.origin.x, frameCate.origin.y + PADDING, 14.0f*7, 14.0f);
     self.rateView.rate = [_apprecord.rate intValue];
     self.downloadNumLbl.text = [NSString stringWithFormat:@"(%@)", _apprecord.downloads];
-   }
+    if (_btPrice.layer.borderColor != _btPrice.titleLabel.textColor.CGColor)
+    {
+        _btPrice.layer.borderWidth=1;
+        _btPrice.layer.borderColor = _btPrice.titleLabel.textColor.CGColor;
+        _btPrice.layer.cornerRadius = 4;
+        _imageviewlistapp.clipsToBounds = YES;
+        _imageviewlistapp.layer.cornerRadius = 15;
+    }
+}
+
+- (IBAction)handleUpdateVersion:(id)sender
+{
+    // get indexpath button
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_apprecord.official_link]];
+}
 @end

@@ -38,82 +38,86 @@ CellDescriptionappdetail *myClass;
     [[self tableviewdetail]setDelegate:self];
     [[self tableviewdetail]setDataSource:self];
     if (![_detailapprecord.des isKindOfClass:[NSString class]] || _detailapprecord.des.length == 0) {
-        [[APIManager sharedAPIManager] RK_RequestApiGetAppDetail:self.detailapprecord.package appID:self.detailapprecord.app_id withContext:self];
+        [[ADN_APIManager sharedAPIManager] RK_RequestApiGetAppDetail:self.detailapprecord.package appID:self.detailapprecord.app_id withContext:self];
     }
-//        NSLog(@"%@",_detailapprecord.des);
-   // NSLog(@"%@",_detailapprecord.name);
 }
 
 -(NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
 {
-    return [_detailapprecord.rate_c integerValue] == 0 ? 3 : 4;
+    //return 0;
+   return [_detailapprecord.rate_c integerValue] == 0 ? 3 : 4;
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row==0)
     {
+    //        Storyboard
        NSString *CellIdentifier   = CellIdentifier = @"Celldetail";
-      CellDetailapp *cell = (CellDetailapp *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
- 
+//      CellDetailapp *cell = (CellDetailapp *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        CellDetailapp *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if(!cell)
         {
-            cell = [[CellDetailapp alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        };
-    
-
-        [cell setApprecorddetail:_detailapprecord];
-        [cell getdetailcontent];
-        [cell.btprice addTarget:self action:@selector(handleUpdateVersion:) forControlEvents:UIControlEventTouchUpInside];
+           cell = (CellDetailapp *) [[[NSBundle mainBundle] loadNibNamed:@"CellDetailApp" owner:self options:nil] lastObject];
+        }
         
-        return cell;
+        if (cell)
+        {
+            [cell setApprecorddetail:_detailapprecord];
+            [cell getdetailcontent];
+        }
+        return cell;        
     }
     else if (indexPath.row==1) // cell show app's screenshots
     {
+    //        Storyboard
         NSString *CellIdentifier   = [[DetailScreenShotCell class] description];
-        DetailScreenShotCell *cell = (DetailScreenShotCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
+//        DetailScreenShotCell *cell = (DetailScreenShotCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        DetailScreenShotCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if(!cell)
         {
-            cell = [[DetailScreenShotCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        }
+            cell = (DetailScreenShotCell *) [[[NSBundle mainBundle] loadNibNamed:@"DetailScreenShotCell" owner:self options:nil] lastObject];
+            
+        };
         cell.delegate = self;
         [cell setObject:_detailapprecord];
         return cell;
+        
+
     }
     else if (indexPath.row==2)
     {
-        NSString *CellIdentifier =@"CellDescriptionappdetail";
-       CellDescriptionappdetail *cell = (CellDescriptionappdetail *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        cell.delegate=self;
-              if(!cell)
-        {
-            cell = [[CellDescriptionappdetail alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        };
+         //        Storyboard
         
+        NSString *CellIdentifier =@"CellDescriptionappdetail";
+    //       CellDescriptionappdetail *cell = (CellDescriptionappdetail *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        CellDescriptionappdetail *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if(!cell)
+        {
+            cell = (CellDescriptionappdetail *) [[[NSBundle mainBundle] loadNibNamed:@"CellDescriptionAppDetail" owner:self options:nil] lastObject];
+        };
+        cell.delegate=self;
         [cell setObject:[self  convertHTML:_detailapprecord.des] forState:_descriptionCellStatus];
-//        [cell getdescription:[self  convertHTML:_detailapprecord.des]];
+       
         return cell;
+
     }
     else if (indexPath.row==3)
     {
-        NSString *CellIdentifier  = CellIdentifier = @"Cellratingpoint";
-        Cellratingpoint *cell = (Cellratingpoint *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        //Stroyboard
+        NSString *CellIdentifier  =  @"Cellratingpoint";
+//        Cellratingpoint *cell = (Cellratingpoint *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        Cellratingpoint *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if(!cell)
         {
-            cell = [[Cellratingpoint alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        };
-        
-        // NSString *indexrow = [NSString stringWithFormat:@"%d",indexPath.row];
+            cell = (Cellratingpoint *) [[[NSBundle mainBundle] loadNibNamed:@"CellRatingPoint" owner:self options:nil] lastObject];
+        }
         if (cell)
         {
-
             [cell getratepoint:_detailapprecord.rate :_detailapprecord.ratings];
-            
         }
         return cell;
     }
-
-      return nil;
+    return nil;
 }
 
 #pragma mark
@@ -141,15 +145,10 @@ CellDescriptionappdetail *myClass;
     // Dispose of any resources that can be recreated.
 }
 
-- (void)handleUpdateVersion:(id)sender
-{
-    // get indexpath button
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_detailapprecord.official_link]];
-}
-
 - (void)statusChanged:(enumDescriptionCellStatus)status
 {
     _descriptionCellStatus = status;
+    //[_tableviewdetail reload]
     [_tableviewdetail reloadData];
 }
 

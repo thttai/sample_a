@@ -43,12 +43,28 @@
     self.lbtitle.text =_apprecorddetail.name;
     [self.btprice setTitle:@"Free" forState:UIControlStateNormal];
     _btprice.layer.borderWidth=1;
-    _btprice.layer.borderColor = [UIColor blueColor].CGColor;
+    _btprice.layer.borderColor =  [(_btprice.titleLabel.textColor) CGColor];
+    
     _btprice.layer.cornerRadius = 4;
     //Add image to list app to list app
     [self.imageviewicon setImageWithURL:[NSURL URLWithString:_apprecorddetail.icon]];
+    _imageviewicon.clipsToBounds = YES;
+    _imageviewicon.layer.cornerRadius = 15;
     self.rateView.rate = [_apprecorddetail.rate intValue];
     self.downloadNumLbl.text = [NSString stringWithFormat:@"(%@)", _apprecorddetail.downloads];
 }
+-(void)prepareForReuse
+{
+    [super prepareForReuse];
+    UIImage *placeholder = [UIImage imageNamed:@"placeholder.png"];
+    _imageviewicon.clipsToBounds = YES;
+    _imageviewicon.layer.cornerRadius = 15;
+    [_imageviewicon setImage:placeholder];
+}
 
+-(IBAction)handleUpdateVersion:(id)sender
+{
+    // get indexpath button
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_apprecorddetail.official_link]];
+}
 @end

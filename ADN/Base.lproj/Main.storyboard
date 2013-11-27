@@ -8,7 +8,7 @@
         <!--View Controller - ADN-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController autoresizesArchivedViewToFullSize="NO" id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
+                <viewController autoresizesArchivedViewToFullSize="NO" id="vXZ-lx-hvc" customClass="ADNViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="64" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -156,7 +156,7 @@
         <!--Search View Controller-->
         <scene sceneID="1EH-I3-0Ez">
             <objects>
-                <viewController storyboardIdentifier="searchview" automaticallyAdjustsScrollViewInsets="NO" id="p7H-2X-l33" customClass="SearchViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="searchview" automaticallyAdjustsScrollViewInsets="NO" id="p7H-2X-l33" customClass="ADNSearchViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ypO-xA-U0g">
                         <rect key="frame" x="0.0" y="64" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -174,7 +174,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="85" id="vYZ-eg-yMl" customClass="Celllistapp">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cellsearch" rowHeight="85" id="vYZ-eg-yMl" customClass="Celllistapp">
                                         <rect key="frame" x="0.0" y="22" width="320" height="85"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vYZ-eg-yMl" id="RkA-c4-fi4">

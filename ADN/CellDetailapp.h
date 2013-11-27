@@ -18,4 +18,5 @@
 @property (strong, nonatomic) Apprecord *apprecorddetail;
 @property (strong, nonatomic) IBOutlet UILabel *lbdev;
 -(void)getdetailcontent;
+-(IBAction)handleUpdateVersion:(id)sender;
 @end

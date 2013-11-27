@@ -8,12 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "DYRateView.h"
+#import "Apprecord.h"
+
 @interface Celllistapp : UITableViewCell
+{
+    float heighOneRowTitle;
+}
 @property (weak, nonatomic) IBOutlet SDImageView *imageviewlistapp;
 @property (weak, nonatomic) IBOutlet UIButton *btPrice;
 @property (weak, nonatomic) IBOutlet UILabel *Number;
 @property (weak, nonatomic) IBOutlet UILabel *Title;
-@property (weak, nonatomic) IBOutlet UILabel *Rate;
 @property (weak, nonatomic) IBOutlet UILabel *categoryapp;
 @property (strong, nonatomic) Apprecord *apprecord;
 @property (weak, nonatomic) IBOutlet UILabel *downloadNumLbl;
@@ -21,5 +25,5 @@
 @property (strong, nonatomic) DYRateView *rateView;
 
 -(void)CustomCell: (NSString *) number;
-
+- (IBAction)handleUpdateVersion:(id)sender;
 @end

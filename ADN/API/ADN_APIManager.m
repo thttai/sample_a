@@ -6,17 +6,14 @@
 //  Copyright (c) 2012 Phuong. Nguyen Minh. All rights reserved.
 //
 #import <UIKit/UIKit.h>
-#import "APIManager.h"
+#import "ADN_APIManager.h"
 #import <CoreData/CoreData.h>
 #import "AppDelegate.h"
 
-@implementation APIManager
+@implementation ADN_APIManager
 
-@synthesize myCookies;
-@synthesize wasSendLogin;
-
-static APIManager* _sharedMySingleton = nil;
-+(APIManager*)sharedAPIManager
+static ADN_APIManager* _sharedMySingleton = nil;
++(ADN_APIManager*)sharedAPIManager
 {
     //This way guaranttee only a thread execute and other thread will be returned when thread was running finished process
     if(_sharedMySingleton != nil)
@@ -43,14 +40,6 @@ static APIManager* _sharedMySingleton = nil;
 -(id)copyWithZone:(NSZone *)zone
 {
     return self;
-}
-
-//Do nothing, other than return the shared instance - as this is expected from autorelease
-
--(void) dealloc
-{
-    self.myCookies = nil;
-    self.accessTokenKey = nil;
 }
 
 -(id)init{
@@ -209,6 +198,9 @@ static APIManager* _sharedMySingleton = nil;
         [[RKObjectManager sharedManager] removeResponseDescriptor:objectDescriptor];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         RKLogError(@"Failed %@", error);
+        if ([context_id respondsToSelector:@selector(processFailedRequestId:)]) {
+            [context_id processFailedRequestId:request_id];
+        }
     }];
     [[RKObjectManager sharedManager] enqueueObjectRequestOperation:objectRequestOperation];
 }

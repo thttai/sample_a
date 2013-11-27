@@ -66,7 +66,7 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    
+    self.uibtmore.hidden = NO;
     CGSize size = [self.lbDescription.text sizeWithFont:self.lbDescription.font constrainedToSize:CGSizeMake(DESCRIPTION_WIDTH, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     CGRect r = self.lbDescription.frame;
      CGRect b = self.uibtmore.frame;
@@ -75,16 +75,19 @@
         self.lbDescription.numberOfLines = 0;
         self.uibtmore.hidden = NO;
         b.origin.y = size.height+10;
- [_uibtmore setImage:[UIImage imageNamed:@"up.png"] forState:UIControlStateNormal];
+        if (r.size.height < DESCRIPTION_SHORT_HEIGHT) {
+            self.uibtmore.hidden = YES;
+        }
+
+   [_uibtmore setImage:[UIImage imageNamed:@"up.png"] forState:UIControlStateNormal];
     }
-    
     else
     {
         r.size.height = DESCRIPTION_SHORT_HEIGHT;
          b.origin.y = DESCRIPTION_SHORT_HEIGHT+10;
         self.lbDescription.numberOfLines = 5;
         self.uibtmore.hidden = NO;
-         [_uibtmore setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
+               [_uibtmore setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
     }
     self.lbDescription.frame = r;
     self.uibtmore.frame=b;
@@ -93,46 +96,4 @@
         self.uibtmore.hidden = YES;
     }
 }
-
-//-(void)getdescription :(NSString *)description;
-//{
-// //   checkdescription = checkview;
-//    if (checkdescription==1){
-//        _lbDescription.text= description;
-//        _lbDescription.numberOfLines = 0;
-//        CGSize maximumLabelSize = CGSizeMake(280,9999);
-//        CGSize expectedLabelSize = [description sizeWithFont: _lbDescription.font
-//                                           constrainedToSize:maximumLabelSize
-//                                               lineBreakMode: _lbDescription.lineBreakMode];
-//        CGRect newFrame =  _lbDescription.frame;
-//        newFrame.size.height = expectedLabelSize.height+5;
-//       // _lbDescription.frame = newFrame;
-//        CGRect newFrame1 = self.uiviewdescription.frame;
-//        newFrame1.size.height =  newFrame.size.height+50;
-//        [self.uiviewdescription setFrame:newFrame1];
-//        _heightdescription =newFrame1.size.height;
-//        
-//    }
-//    else if(checkdescription==2)
-//    {
-//        _uibtmore.hidden=true;
-//        _lbDescription.text= description;
-//        _lbDescription.numberOfLines = 0;
-//        CGSize maximumLabelSize = CGSizeMake(280,9999);
-//        CGSize expectedLabelSize = [description sizeWithFont: _lbDescription.font
-//                                  constrainedToSize:maximumLabelSize
-//                                      lineBreakMode: _lbDescription.lineBreakMode];
-//        CGRect newFrame =  _lbDescription.frame;
-//        newFrame.size.height = expectedLabelSize.height+5;
-//        _lbDescription.frame = newFrame;
-//        CGRect newFrame1 = self.uiviewdescription.frame;
-//        newFrame1.size.height =  newFrame.size.height+50;
-//        [self.uiviewdescription setFrame:newFrame1];
-//        _heightdescription =newFrame1.size.height;
-//        checkdescription=3;
-//    }
-//
-//}
-
-
 @end
