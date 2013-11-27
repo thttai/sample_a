@@ -301,6 +301,7 @@ static ADN_APIManager* _sharedMySingleton = nil;
                                                    @"official_link" : @"official_link",
                                                    @"cat_id" : @"cat_id",
                                                    @"cat_n" : @"cat_n",
+                                                   @"cat_name" : @"cat_name",
                                                    @"dev_n" : @"dev_n",                                                   
                                                    @"icon" : @"icon",
                                                    @"ver_n" : @"ver_n",

@@ -14,6 +14,7 @@
 @synthesize official_link;
 @synthesize cat_id;
 @synthesize cat_n;
+@synthesize cat_name;
 @synthesize dev_n;
 @synthesize icon;
 @synthesize ver_n;
