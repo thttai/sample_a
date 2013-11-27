@@ -101,7 +101,9 @@
     [self.Number setText:number];
     
     //Add label category to list app
-    [self.categoryapp setText:_apprecord.cat_n];
+    NSString *categoryName = _apprecord.cat_n;
+    if (!categoryName) categoryName = _apprecord.cat_name;
+    [self.categoryapp setText:categoryName];
     //Add Button Price to list app
    // [self.Rate setText:_apprecord.rate];
      [self.btPrice setTitle:@"Free" forState:UIControlStateNormal];

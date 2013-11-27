@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSString *official_link;
 @property (strong, nonatomic) NSNumber *cat_id;
 @property (strong, nonatomic) NSString *cat_n;
+@property (strong, nonatomic) NSString *cat_name;
 @property (strong, nonatomic) NSString *dev_n;
 @property (strong, nonatomic) NSString *icon;
 @property (strong, nonatomic) NSString *ver_n;
