@@ -28,6 +28,12 @@ CellDescriptionappdetail *myClass;
     return self;
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -96,6 +102,7 @@ CellDescriptionappdetail *myClass;
             cell = (CellDescriptionappdetail *) [[[NSBundle mainBundle] loadNibNamed:@"CellDescriptionAppDetail" owner:self options:nil] lastObject];
         };
         cell.delegate=self;
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         [cell setObject:[self  convertHTML:_detailapprecord.des] forState:_descriptionCellStatus];
        
         return cell;
@@ -139,17 +146,19 @@ CellDescriptionappdetail *myClass;
     return 157;
 }
 
-- (void)didReceiveMemoryWarning
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+   if (indexPath.row == 2) {
+       // A case was selected, so push into the CellDescriptionappdetail
+       CellDescriptionappdetail *cell = (CellDescriptionappdetail*) ([tableView cellForRowAtIndexPath:indexPath]);
+       [cell btmore:nil];
+    }
 }
 
 - (void)statusChanged:(enumDescriptionCellStatus)status
 {
     _descriptionCellStatus = status;
-    //[_tableviewdetail reload]
-    [_tableviewdetail reloadData];
+    [_tableviewdetail reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 -(NSString *)convertHTML:(NSString *)html

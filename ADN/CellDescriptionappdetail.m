@@ -22,12 +22,12 @@
     return self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
+//- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+//{
+//    //[super setSelected:selected animated:animated];
+//
+//    // Configure the view for the selected state
+//}
 
 + (NSDictionary*)tableView:(UITableView*)tableView rowHeightForObject:(id)object forStatus:(enumDescriptionCellStatus)status
 {
@@ -53,8 +53,15 @@
 }
 
 - (IBAction)btmore:(id)sender {
-    self.uibtmore.selected = !self.uibtmore.selected;
-    [delegate statusChanged:self.uibtmore.selected ? enumDescriptionCellStatus_Full : enumDescriptionCellStatus_Short];
+    if (self.uibtmore) {
+        
+    }
+    if (_cellState == enumDescriptionCellStatus_Full) {
+        _cellState = enumDescriptionCellStatus_Short;
+    } else {
+        _cellState = enumDescriptionCellStatus_Full;
+    }
+    [delegate statusChanged:_cellState];
 }
 
 - (void)setObject:(id)object forState:(enumDescriptionCellStatus)status
@@ -69,31 +76,39 @@
     self.uibtmore.hidden = NO;
     CGSize size = [self.lbDescription.text sizeWithFont:self.lbDescription.font constrainedToSize:CGSizeMake(DESCRIPTION_WIDTH, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     CGRect r = self.lbDescription.frame;
-     CGRect b = self.uibtmore.frame;
+    CGRect b = self.uibtmore.frame;
+    
     if (size.height <= DESCRIPTION_SHORT_HEIGHT || _cellState == enumDescriptionCellStatus_Full) {
         r.size.height = size.height;
         self.lbDescription.numberOfLines = 0;
-        self.uibtmore.hidden = NO;
         b.origin.y = size.height+10;
         if (r.size.height < DESCRIPTION_SHORT_HEIGHT) {
             self.uibtmore.hidden = YES;
+        } else {
+            self.uibtmore.hidden = NO;
         }
-
-   [_uibtmore setImage:[UIImage imageNamed:@"up.png"] forState:UIControlStateNormal];
-    }
-    else
-    {
+        
+    } else {
         r.size.height = DESCRIPTION_SHORT_HEIGHT;
-         b.origin.y = DESCRIPTION_SHORT_HEIGHT+10;
+        b.origin.y = DESCRIPTION_SHORT_HEIGHT+10;
         self.lbDescription.numberOfLines = 5;
         self.uibtmore.hidden = NO;
-               [_uibtmore setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
     }
-    self.lbDescription.frame = r;
-    self.uibtmore.frame=b;
-    if ([_lbDescription.text isEqualToString:@""])
-    {
-        self.uibtmore.hidden = YES;
-    }
+    
+    [UIView animateWithDuration:0.2 animations:^{
+        self.lbDescription.frame = r;
+    } completion:^(BOOL finished) {
+        self.uibtmore.frame=b;
+        if (size.height <= DESCRIPTION_SHORT_HEIGHT || _cellState == enumDescriptionCellStatus_Full) {
+            [_uibtmore setImage:[UIImage imageNamed:@"up.png"] forState:UIControlStateNormal];
+        } else {
+            [_uibtmore setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
+        }
+        if ([_lbDescription.text isEqualToString:@""])
+        {
+            self.uibtmore.hidden = YES;
+        }
+    }];
+    
 }
 @end
