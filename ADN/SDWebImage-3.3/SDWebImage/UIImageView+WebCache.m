@@ -58,15 +58,23 @@ static char operationKey;
             void (^block)(void) = ^
             {
                 __strong UIImageView *sself = wself;
-                if (!sself) return;
-                if (image)
+                if (!sself)
                 {
-                    sself.image = image;
+                    return;
+                }
+                UIImage *temp = image;
+                if ((image.size.width > image.size.height) && (sself.frame.size.width < sself.frame.size.height)){
+                    temp = [self rotateImageAppropriately:image withDirection:UIImageOrientationLeft];
+                }
+                
+                if (temp)
+                {
+                    sself.image = temp;
                     [sself setNeedsLayout];
                 }
                 if (completedBlock && finished)
                 {
-                    completedBlock(image, error, cacheType);
+                    completedBlock(temp, error, cacheType);
                 }
             };
             if ([NSThread isMainThread])
@@ -80,6 +88,14 @@ static char operationKey;
         }];
         objc_setAssociatedObject(self, &operationKey, operation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
+}
+
+- (UIImage*) rotateImageAppropriately:(UIImage*) imageToRotate withDirection:(UIImageOrientation)imageOrientationWhenAddedToScreen
+{
+    //This method will properly rotate our image, we need to make sure that
+    CGImageRef imageRef = [imageToRotate CGImage];
+    UIImage* properlyRotatedImage = [UIImage imageWithCGImage:imageRef scale:1.0 orientation:imageOrientationWhenAddedToScreen];
+    return properlyRotatedImage;
 }
 
 - (void)cancelCurrentImageLoad

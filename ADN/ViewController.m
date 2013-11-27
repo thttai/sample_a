@@ -122,9 +122,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    ADNDetailViewController *detail = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
-    // NSLog(@"----self.navigationController = %@", self.navigationController);
-    
+    ADNDetailViewController *detail = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];    
     Apprecord *temp = [self.MutableArrayListApp objectAtIndex:indexPath.row];
     
     if ([self.searchDisplayController isActive]) {
@@ -206,11 +204,9 @@
 }
 
 - (void) actionsearch:(id)sender {
-//    NSLog(@"click search");
-    [self.mySearchBar setHidden:NO];
-    [self.mySearchBar becomeFirstResponder];
-    [self.searchDisplayController setSearchResultsDelegate:self];
-    [self.searchDisplayController setSearchResultsDataSource:self];
+    SearchViewController *search = [self.storyboard instantiateViewControllerWithIdentifier:@"searchview"];
+    [search setDataArray:self.MutableArrayListApp];
+    [self.navigationController pushViewController:search animated:YES];
 }
 - (void) actiondownload:(id)sender {
 //    NSLog(@"click download");
@@ -383,79 +379,6 @@
             }
         }
     }
-    else if (request_id == ID_REQUEST_GET_LIST_APP_BY_SEARCH_KEY)
-    {
-        if (!self.searchResults) {
-            self.searchResults = [[NSMutableArray alloc] init];
-        } else {
-            [self.searchResults removeAllObjects];
-        }
-        _searchResults = [NSMutableArray arrayWithArray:array];
-    }
     [_Tableviewlistapp reloadData];
 }
-
-#pragma mark -
-#pragma mark processing search
-#pragma mark -
-
-#pragma mark Content Filtering
-
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
-{
-	// Update the filtered array based on the search text and scope.
-	
-//    // Remove all objects from the filtered search array
-    if (!self.searchResults) {
-        self.searchResults = [[NSMutableArray alloc] init];
-    } else {
-        [self.searchResults removeAllObjects];
-    }
-    
-	// Filter the array using NSPredicate
-    // Further filter the array with the scope
-    NSPredicate *scopePredicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@",searchText];
-    NSArray *temp = [_MutableArrayListApp filteredArrayUsingPredicate:scopePredicate];
-    _searchResults = [NSMutableArray arrayWithArray:temp];
-    [self.Tableviewlistapp reloadData];
-}
-
-#pragma mark UISearchBarDelegate
-//-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-//{
-////    if (![self.searchResults isKindOfClass:[NSMutableArray class]] || self.searchResults.count == 0) {
-//        [[APIManager sharedAPIManager] RK_RequestApiGetListAppBySearchKey:self.mySearchBar.text withContext:self];
-////    }
-//}
-
-
-#pragma mark - UISearchDisplayController Delegate Methods
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{
-    // Tells the table data source to reload when text changes
-    [self filterContentForSearchText:searchString scope:nil];
-    
-    // Return YES to cause the search result table view to be reloaded.
-    return YES;
-}
-
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
-{
-    // Tells the table data source to reload when scope bar selection changes
-    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:nil];
-//     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
-    
-    // Return YES to cause the search result table view to be reloaded.
-    return YES;
-}
-
-
-- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
-{
-    [self.mySearchBar setHidden:YES];
-    [_Tableviewlistapp reloadData];
-}
-
 @end

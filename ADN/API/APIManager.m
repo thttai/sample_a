@@ -114,11 +114,6 @@ static APIManager* _sharedMySingleton = nil;
     [self RK_RequestDictionaryMappingResponseWithURL:url postData:temp keyPost:@"data" keyPath:keyPath withContext:context_id requestId:request_id];
 }
 
-- (void)RK_RequestArrayMappingResponseWithURL:(NSString *)url postData:(NSDictionary *)temp keyPath:(NSString *)keyPath withContext:(id)context_id requestId:(int)request_id
-{
-//    [self RK_RequestArrayMappingResponseWithURL:url postData:temp keyPost:nil keyPath:keyPath withContext:context_id requestId:request_id];
-}
-
 - (void)RK_RequestDictionaryMappingResponseWithURL:(NSString *)url postData:(NSDictionary *)temp keyPost:(NSString *)keyPost keyPath:(NSString *)keyPath withContext:(id)context_id requestId:(int)request_id
 {
     RKObjectMapping *dicMapping = [RKObjectMapping mappingForClass:[DictionaryMapping class]];
@@ -183,6 +178,30 @@ static APIManager* _sharedMySingleton = nil;
     if (!request) {
         return;
     }
+    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[objectDescriptor]];
+    [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        //            RKLogInfo(@"Array Load content  = %@", mappingResult.dictionary);
+        [self RK_CallBackMethod:request_id mappingResult:mappingResult context_id:context_id objectDescriptor:objectDescriptor];
+        [[RKObjectManager sharedManager] removeResponseDescriptor:objectDescriptor];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        RKLogError(@"Failed %@", error);
+    }];
+    [[RKObjectManager sharedManager] enqueueObjectRequestOperation:objectRequestOperation];
+}
+
+//xu ly truong hop neu muon truyen khoang trang trong request get
+- (void)RK_SendRequestAPI_Descriptor:(RKResponseDescriptor *)objectDescriptor withURL:(NSString *)pathURL parameters:(NSDictionary *)temp withContext:(id)context_id requestId:(int)request_id
+{
+    [[RKObjectManager sharedManager] cancelAllObjectRequestOperationsWithMethod:RKRequestMethodAny matchingPathPattern:pathURL];
+    NSMutableURLRequest *request = [[RKObjectManager sharedManager] requestWithObject:nil method:RKRequestMethodGET path:pathURL parameters:temp] ;
+    //send request
+    if (!request) {
+        return;
+    }
+    [request setHTTPShouldHandleCookies:YES];
+    [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+    [request setTimeoutInterval:60];
+    
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[objectDescriptor]];
     [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         //            RKLogInfo(@"Array Load content  = %@", mappingResult.dictionary);
@@ -265,12 +284,13 @@ static APIManager* _sharedMySingleton = nil;
 -(void)RK_RequestApiGetListAppByCategory:(int)cat_id withContext:(id)context_id
 {
     NSString *url = [NSString stringWithFormat:ADN_API_GET_LIST_APP_BY_CATEGORY,ROOT_SERVER, cat_id];
-    [self RK_RequestAPIGetListApp:url requestID:ID_REQUEST_GET_LIST_APP_BY_CATEGORY withContext:context_id];
+    [self RK_RequestAPIGetListApp:url requestID:ID_REQUEST_GET_LIST_APP_BY_CATEGORY parameters:nil withContext:context_id];
 }
 -(void)RK_RequestApiGetListAppBySearchKey:(NSString *)searchKey withContext:(id)context_id
 {
-    NSString *url = [NSString stringWithFormat:ADN_API_GET_LIST_APP_BY_SEARCH_KEY,ROOT_SERVER, searchKey];
-    [self RK_RequestAPIGetListApp:url requestID:ID_REQUEST_GET_LIST_APP_BY_SEARCH_KEY withContext:context_id];
+    NSDictionary *temp = [NSDictionary dictionaryWithObjectsAndKeys:searchKey,@"keyword", nil];
+    NSString *url = [NSString stringWithFormat:ADN_API_GET_LIST_APP_BY_SEARCH_KEY,ROOT_SERVER];
+    [self RK_RequestAPIGetListApp:url requestID:ID_REQUEST_GET_LIST_APP_BY_SEARCH_KEY parameters:temp withContext:context_id];
 }
 
 -(void)RK_RequestApiGetAppDetail:(NSString *)appName appID:(NSString *)appID withContext:(id)context_id
@@ -279,7 +299,7 @@ static APIManager* _sharedMySingleton = nil;
     [self RK_RequestDictionaryMappingResponseWithURL:url postData:nil keyPath:@"result" withContext:context_id requestId:ID_REQUEST_GET_APP_DETAIL];
 }
 
--(void)RK_RequestAPIGetListApp:(NSString *)url requestID:(int)request_id withContext:(id)context_id
+-(void)RK_RequestAPIGetListApp:(NSString *)url requestID:(int)request_id parameters:(NSDictionary *)temp withContext:(id)context_id
 {
     //---------------------------------//
     RKObjectMapping *category = [RKObjectMapping mappingForClass:[Apprecord class]];
@@ -305,7 +325,11 @@ static APIManager* _sharedMySingleton = nil;
                                                    @"d_folder" : @"d_folder",
                                                    @"ver_c" : @"ver_c"}];
     RKResponseDescriptor *locationDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:category method:RKRequestMethodAny pathPattern:nil keyPath:@"result" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    [self RK_SendRequestAPI_Descriptor:locationDescriptor withURL:[NSURL URLWithString:url] postData:nil keyPost:nil withContext:context_id requestId:request_id];
+    if (temp) {
+        [self RK_SendRequestAPI_Descriptor:locationDescriptor withURL:url parameters:temp withContext:context_id requestId:request_id];
+    } else {
+        [self RK_SendRequestAPI_Descriptor:locationDescriptor withURL:[NSURL URLWithString:url] postData:nil keyPost:nil withContext:context_id requestId:request_id];
+    }
 }
 @end
 

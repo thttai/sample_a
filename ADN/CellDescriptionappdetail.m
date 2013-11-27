@@ -36,7 +36,7 @@
     CGFloat height = size.height;
     if (height > 0) {
         if (height <= DESCRIPTION_SHORT_HEIGHT || status == enumDescriptionCellStatus_Full) {
-            height += 18;
+            height += 35;
             // update status
             status = status == enumDescriptionCellStatus_Num ? enumDescriptionCellStatus_Full : status;
         }
@@ -69,18 +69,29 @@
     
     CGSize size = [self.lbDescription.text sizeWithFont:self.lbDescription.font constrainedToSize:CGSizeMake(DESCRIPTION_WIDTH, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     CGRect r = self.lbDescription.frame;
+     CGRect b = self.uibtmore.frame;
     if (size.height <= DESCRIPTION_SHORT_HEIGHT || _cellState == enumDescriptionCellStatus_Full) {
         r.size.height = size.height;
         self.lbDescription.numberOfLines = 0;
-        self.uibtmore.hidden = YES;
+        self.uibtmore.hidden = NO;
+        b.origin.y = size.height+10;
+ [_uibtmore setImage:[UIImage imageNamed:@"up.png"] forState:UIControlStateNormal];
     }
+    
     else
     {
         r.size.height = DESCRIPTION_SHORT_HEIGHT;
+         b.origin.y = DESCRIPTION_SHORT_HEIGHT+10;
         self.lbDescription.numberOfLines = 5;
         self.uibtmore.hidden = NO;
+         [_uibtmore setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
     }
     self.lbDescription.frame = r;
+    self.uibtmore.frame=b;
+    if ([_lbDescription.text isEqualToString:@""])
+    {
+        self.uibtmore.hidden = YES;
+    }
 }
 
 //-(void)getdescription :(NSString *)description;

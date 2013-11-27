@@ -40,4 +40,5 @@
 
 #define CACHE_IMAGE_PATH ([NSString stringWithFormat:@"%@/images/",NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0]])
 
+#define HOME_TABLE_CELL_HEIGHT 84
 #endif

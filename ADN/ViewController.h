@@ -12,9 +12,8 @@
 #import "Celllistapp.h"
 #import "ADNDetailViewController.h"
 #import "FXBlurView.h"
-
+#import "SearchViewController.h"
 #define TIME_CHANGE_BANNER 5
-#define HOME_TABLE_CELL_HEIGHT 84
 
 typedef enum
 {
@@ -34,7 +33,6 @@ typedef enum
 @property (strong, nonatomic) NSMutableArray *MutableArrayListAppseg3;
 @property (strong, nonatomic) NSMutableArray *MutableArrayListCategory;
 @property (strong, nonatomic) Apprecord *apprecord;
-@property (weak, nonatomic) IBOutlet UISearchBar *mySearchBar;
  
 - (IBAction)btsegemented:(id)sender;
 

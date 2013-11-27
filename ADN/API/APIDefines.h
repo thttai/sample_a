@@ -27,7 +27,7 @@
 #define ADN_API_GET_CATEGORY @"%@version=1&do=category.gettopbar&channel=123phim"
 #define ADN_API_GET_LIST_APP_BY_CATEGORY @"%@version=1&do=app.getListByCategory&channel=123phim&categoryId=%d&limit=30&offset=0&os=2"
 #define ADN_API_GET_APP_DETAIL @"%@version=1&do=app.getDetail&os=2&packageName=%@&productId=%@"
-#define ADN_API_GET_LIST_APP_BY_SEARCH_KEY @"%@do=app.search&version=1&keyword=%@&os=2&refreshcache=1"
+#define ADN_API_GET_LIST_APP_BY_SEARCH_KEY @"%@do=app.search&version=1&os=2&refreshcache=1"
 //version=1&do=app.getListByPackageName&channel=123phim&packageList=%@
 
 #pragma mark

@@ -38,7 +38,6 @@
 
 +(CGFloat)tableView:(UITableView *)tableView rowHeightForObject:(id)object
 {
-    Apprecord *detailRecord = object;
     return 400;
 }
 
@@ -89,7 +88,6 @@
     NSString *dateStr = [self dateStringForDate:detailRecord.date_add];
     // info
     self.infoLbl.text = [NSString stringWithFormat:@"Lượt tải: %@ | %@ | %@",downloadStr, dateStr, detailRecord.size];
-    
 }
 
 #pragma mark - Helper
