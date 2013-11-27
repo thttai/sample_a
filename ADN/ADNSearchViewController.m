@@ -10,13 +10,28 @@
 #import "Celllistapp.h"
 #import "ADNDetailViewController.h"
 
+#define  MINIMUM_SEARCH_CHARS 3
+#define  MINIMUM_MILISECONDS  400.0
+
+
 @interface ADNSearchViewController ()<UISearchBarDelegate, RKManagerDelegate>
 @property (strong, nonatomic) NSMutableArray *searchResults;
 @property (nonatomic, assign) BOOL isFilterSearch;
 @property (nonatomic, assign) BOOL isSearchFound;
 @end
 
-@implementation ADNSearchViewController
+@implementation ADNSearchViewController {
+    double      starttime;
+    NSDate      *date;
+    NSString    *searchString;
+    NSTimer     *timerMain;
+}
+
+-(void)dealloc {
+    date = nil;
+    searchString = nil;
+    timerMain = nil;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,6 +45,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    date = [NSDate date];
+    starttime = [date timeIntervalSinceNow] * -1000.0;
+    searchString = @"";
+    
     [[self tableviewsearch]setDelegate:self];
     [[self tableviewsearch]setDataSource:self];
     self.navigationController.navigationBar.topItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"ADN" style:UIBarButtonItemStylePlain target:nil action:nil];
@@ -59,6 +79,15 @@
     _isFilterSearch = YES;
 }
 
+- (void)searchAction
+{
+    [self filterContentForSearchText:searchString];[self.searchbar becomeFirstResponder];
+    if (!_isSearchFound) {
+        [[ADN_APIManager sharedAPIManager] RK_RequestApiGetListAppBySearchKey:searchString withContext:self];
+    } else {
+        [self.tableviewsearch reloadData];
+    }
+}
 
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -126,19 +155,36 @@
 #pragma mark -
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    if (searchText.length == 0) {
+    searchString = searchText;
+    
+    // Trongvm - 11/27: Only Call API search as rules
+    //  Rule 1 - Only search with at least 3 characters
+    //  Rule 2 - Only search if user stop typing @ while 400 milisecond
+    
+    
+    // Rule 1
+    if (searchText.length < MINIMUM_SEARCH_CHARS) {
         return;
     }
-    [self filterContentForSearchText:searchText];[self.searchbar becomeFirstResponder];
-    if (!_isSearchFound) {
-        [[ADN_APIManager sharedAPIManager] RK_RequestApiGetListAppBySearchKey:searchBar.text withContext:self];
-    } else {
-        [self.tableviewsearch reloadData];
+
+    // Rule 2
+    double endtime = [date timeIntervalSinceNow] * -1000.0;
+    NSLog(@"starttime %f endtime %f",starttime,endtime);
+    double diff = endtime - starttime;
+    NSLog(@"Diff - %f", diff);
+    starttime = endtime;
+    [timerMain invalidate];
+    if (diff <= MINIMUM_MILISECONDS) {
+        timerMain = [NSTimer scheduledTimerWithTimeInterval:MINIMUM_MILISECONDS/1000.0 target:self selector:@selector(searchAction) userInfo:nil repeats:NO];
+        return;
     }
+    
+    [self searchAction];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;
 {
+    [self searchAction];
     [_searchbar resignFirstResponder];
 }
 
