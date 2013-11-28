@@ -155,18 +155,18 @@
                 </subviews>
             </tableViewCellContentView>
             <connections>
-                <outlet property="lbcellrate1" destination="kSD-1f-McW" id="9ke-Xd-VrS"/>
-                <outlet property="lbcellrate2" destination="vYr-DJ-0SF" id="LK6-LV-Wtk"/>
-                <outlet property="lbcellrate3" destination="eZN-xN-ibS" id="rKO-0K-kw0"/>
-                <outlet property="lbcellrate4" destination="7dw-Sg-mfp" id="XZD-wR-ctL"/>
-                <outlet property="lbcellrate5" destination="VZ4-jE-xb1" id="Dr6-5b-VTj"/>
-                <outlet property="lbratepoint" destination="0WU-as-XHX" id="pv7-5h-o9A"/>
-                <outlet property="lbso1" destination="XW6-Dq-wUf" id="mYO-jv-akO"/>
-                <outlet property="lbso2" destination="hXI-cI-qcl" id="RN1-fZ-g8I"/>
-                <outlet property="lbso3" destination="d9B-Aj-jgm" id="EA2-Jb-ZqZ"/>
-                <outlet property="lbso4" destination="ooS-PZ-cQ1" id="4pB-Ax-S3W"/>
-                <outlet property="lbso5" destination="AGI-O5-l02" id="Q0b-MN-fcQ"/>
-                <outlet property="lbtotal" destination="kdt-Mq-L7s" id="aFt-S2-uPX"/>
+                <outlet property="lbCellRate1" destination="kSD-1f-McW" id="Wo1-pf-t2e"/>
+                <outlet property="lbCellRate2" destination="vYr-DJ-0SF" id="rEH-qY-0ce"/>
+                <outlet property="lbCellRate3" destination="eZN-xN-ibS" id="WAE-72-e0K"/>
+                <outlet property="lbCellRate4" destination="7dw-Sg-mfp" id="U5o-Ox-kpe"/>
+                <outlet property="lbCellRate5" destination="VZ4-jE-xb1" id="mo1-lZ-Xqr"/>
+                <outlet property="lbRatePoint" destination="0WU-as-XHX" id="gTQ-bI-eeb"/>
+                <outlet property="lbSo1" destination="XW6-Dq-wUf" id="CaE-BC-1hN"/>
+                <outlet property="lbSo2" destination="hXI-cI-qcl" id="dWf-Wi-v7r"/>
+                <outlet property="lbSo3" destination="d9B-Aj-jgm" id="MeJ-Sd-t3M"/>
+                <outlet property="lbSo4" destination="ooS-PZ-cQ1" id="GJD-bf-Vgf"/>
+                <outlet property="lbSo5" destination="AGI-O5-l02" id="mGU-TS-G0s"/>
+                <outlet property="lbTotal" destination="kdt-Mq-L7s" id="8os-Az-0Fb"/>
                 <outlet property="uiviewrating" destination="FFf-tW-WEs" id="j9M-NY-QAU"/>
             </connections>
         </tableViewCell>

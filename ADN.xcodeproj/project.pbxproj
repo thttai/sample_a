@@ -40,6 +40,8 @@
 		4F66AF731845959C00C037EC /* ADNDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F66AF721845959C00C037EC /* ADNDetailViewController.xib */; };
 		4F6CC586183E08E100296DC8 /* CellBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6CC585183E08E100296DC8 /* CellBanner.m */; };
 		4FBB43801845AE1F008BC6C4 /* ADNSearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FBB437F1845AE1F008BC6C4 /* ADNSearchViewController.xib */; };
+		4FBFAA4B18475A6E00C634D6 /* UIViewController+CustomNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBFAA4A18475A6E00C634D6 /* UIViewController+CustomNavigation.m */; };
+		4FBFAA5018475ED900C634D6 /* UIViewController+TabBarAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FBFAA4F18475ED900C634D6 /* UIViewController+TabBarAnimation.m */; };
 		E30CD577183F323A004A16E3 /* CellDetailapp.m in Sources */ = {isa = PBXBuildFile; fileRef = E30CD576183F323A004A16E3 /* CellDetailapp.m */; };
 		E30CD57C183F32A5004A16E3 /* ADNDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E30CD57B183F32A5004A16E3 /* ADNDetailViewController.m */; };
 		E31A5E561845EDB800BA3B58 /* DetailScreenShotCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E31A5E551845EDB800BA3B58 /* DetailScreenShotCell.xib */; };
@@ -151,6 +153,10 @@
 		4FBB437F1845AE1F008BC6C4 /* ADNSearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ADNSearchViewController.xib; sourceTree = "<group>"; };
 		4FBB43811845AF81008BC6C4 /* ADN_APIDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADN_APIDefines.h; sourceTree = "<group>"; };
 		4FBB43821845AF81008BC6C4 /* ADN_DefineConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADN_DefineConstant.h; sourceTree = "<group>"; };
+		4FBFAA4918475A6E00C634D6 /* UIViewController+CustomNavigation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+CustomNavigation.h"; sourceTree = "<group>"; };
+		4FBFAA4A18475A6E00C634D6 /* UIViewController+CustomNavigation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+CustomNavigation.m"; sourceTree = "<group>"; };
+		4FBFAA4E18475ED900C634D6 /* UIViewController+TabBarAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TabBarAnimation.h"; sourceTree = "<group>"; };
+		4FBFAA4F18475ED900C634D6 /* UIViewController+TabBarAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TabBarAnimation.m"; sourceTree = "<group>"; };
 		5112C4FCF0764F698DF1B9E7 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		94EA78D505874D128A866318 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E30CD575183F323A004A16E3 /* CellDetailapp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellDetailapp.h; sourceTree = "<group>"; };
@@ -269,6 +275,10 @@
 				4F062C73183B11C300548728 /* Main.storyboard */,
 				4F062C76183B11C300548728 /* ADNViewController.h */,
 				4F062C77183B11C300548728 /* ADNViewController.m */,
+				4FBFAA4918475A6E00C634D6 /* UIViewController+CustomNavigation.h */,
+				4FBFAA4A18475A6E00C634D6 /* UIViewController+CustomNavigation.m */,
+				4FBFAA4E18475ED900C634D6 /* UIViewController+TabBarAnimation.h */,
+				4FBFAA4F18475ED900C634D6 /* UIViewController+TabBarAnimation.m */,
 				4F062C79183B11C300548728 /* Images.xcassets */,
 				4F062C68183B11C300548728 /* Supporting Files */,
 			);
@@ -667,10 +677,12 @@
 				4F062C78183B11C300548728 /* ADNViewController.m in Sources */,
 				4F5B825F183CB67E0028BA51 /* RKXMLReaderSerialization.m in Sources */,
 				4F5B824B183CA6BA0028BA51 /* ArrayMapping.m in Sources */,
+				4FBFAA4B18475A6E00C634D6 /* UIViewController+CustomNavigation.m in Sources */,
 				4F5B8243183CA6500028BA51 /* ADN_APIManager.m in Sources */,
 				4F5B8267183CBB4A0028BA51 /* AppCategory.m in Sources */,
 				184DA1471841F2BE0058AED7 /* DetailScreenShotCell.m in Sources */,
 				4F5B8259183CAA850028BA51 /* NSString+SHA.m in Sources */,
+				4FBFAA5018475ED900C634D6 /* UIViewController+TabBarAnimation.m in Sources */,
 				E35889CD183F55B800139124 /* Cellratingpoint.m in Sources */,
 				4F5B8260183CB67E0028BA51 /* XMLReader.m in Sources */,
 				4F5B8258183CAA850028BA51 /* NSString+MD5Addition.m in Sources */,

@@ -14,7 +14,7 @@
 #import "Cellratingpoint.h"
 #import "CellDescriptionappdetail.h"
 @interface ADNDetailViewController : UIViewController<UITableViewDelegate, UITableViewDataSource,UIScrollViewDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *tableviewdetail;
-@property (strong, nonatomic) Apprecord *detailapprecord;
-@property (strong, nonatomic) NSString *titlenav;
+@property (weak, nonatomic) IBOutlet UITableView *tableViewDetail;
+@property (strong, nonatomic) Apprecord *detailAppRecord;
+@property (strong, nonatomic) NSString *titleNav;
 @end

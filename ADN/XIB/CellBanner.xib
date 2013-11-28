@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1280" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -57,12 +57,12 @@
                 </subviews>
             </tableViewCellContentView>
             <connections>
-                <outlet property="Number" destination="lbE-y0-b6q" id="d4v-Ud-mZi"/>
-                <outlet property="Title" destination="fvI-7y-h2Q" id="TTw-2j-bUu"/>
                 <outlet property="btPrice" destination="Ocb-zl-4AY" id="H3y-vm-KN3"/>
-                <outlet property="categoryapp" destination="ny5-Z6-rCg" id="ZCC-7l-kVt"/>
+                <outlet property="categoryApp" destination="ny5-Z6-rCg" id="LkY-FK-p3M"/>
                 <outlet property="downloadNumLbl" destination="gNi-pD-ZC8" id="35d-We-Cka"/>
-                <outlet property="imageviewlistapp" destination="i8D-Pa-bqE" id="ESe-4v-49f"/>
+                <outlet property="imageViewListApp" destination="i8D-Pa-bqE" id="YeR-1x-uVr"/>
+                <outlet property="number" destination="lbE-y0-b6q" id="TWo-CC-5t0"/>
+                <outlet property="title" destination="fvI-7y-h2Q" id="ds4-U2-pez"/>
             </connections>
         </tableViewCell>
     </objects>

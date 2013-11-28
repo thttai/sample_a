@@ -11,17 +11,17 @@
 #import "ADNDetailViewController.h"
 @interface Cellratingpoint : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIView *uiviewrating;
-@property (strong, nonatomic) IBOutlet UILabel *lbratepoint;
-@property (strong, nonatomic) IBOutlet UILabel *lbcellrate3;
-@property (strong, nonatomic) IBOutlet UILabel *lbcellrate5;
-@property (strong, nonatomic) IBOutlet UILabel *lbcellrate4;
-@property (strong, nonatomic) IBOutlet UILabel *lbcellrate1;
-@property (strong, nonatomic) IBOutlet UILabel *lbcellrate2;
-@property (strong, nonatomic) IBOutlet UILabel *lbso1;
-@property (strong, nonatomic) IBOutlet UILabel *lbso2;
-@property (strong, nonatomic) IBOutlet UILabel *lbso3;
-@property (strong, nonatomic) IBOutlet UILabel *lbso4;
-@property (strong, nonatomic) IBOutlet UILabel *lbso5;
-@property (strong, nonatomic) IBOutlet UILabel *lbtotal;
--(void)getratepoint :(NSString *)point : (NSArray *)array;
+@property (strong, nonatomic) IBOutlet UILabel *lbRatePoint;
+@property (strong, nonatomic) IBOutlet UILabel *lbCellRate3;
+@property (strong, nonatomic) IBOutlet UILabel *lbCellRate5;
+@property (strong, nonatomic) IBOutlet UILabel *lbCellRate4;
+@property (strong, nonatomic) IBOutlet UILabel *lbCellRate1;
+@property (strong, nonatomic) IBOutlet UILabel *lbCellRate2;
+@property (strong, nonatomic) IBOutlet UILabel *lbSo1;
+@property (strong, nonatomic) IBOutlet UILabel *lbSo2;
+@property (strong, nonatomic) IBOutlet UILabel *lbSo3;
+@property (strong, nonatomic) IBOutlet UILabel *lbSo4;
+@property (strong, nonatomic) IBOutlet UILabel *lbSo5;
+@property (strong, nonatomic) IBOutlet UILabel *lbTotal;
+-(void)getRatePoint :(NSString *)point : (NSArray *)array;
 @end

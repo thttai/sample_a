@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1280" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -58,11 +58,11 @@
             </tableViewCellContentView>
             <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
-                <outlet property="btprice" destination="9bo-k4-gBn" id="LRR-lU-G7b"/>
+                <outlet property="btPrice" destination="9bo-k4-gBn" id="4Qn-T2-MAx"/>
                 <outlet property="downloadNumLbl" destination="f8H-Yb-WL7" id="iJU-2g-uTb"/>
-                <outlet property="imageviewicon" destination="BYD-8c-gYy" id="Zkx-kN-U40"/>
-                <outlet property="lbdev" destination="vtd-2a-bu8" id="Qtb-Vd-23Q"/>
-                <outlet property="lbtitle" destination="N9c-81-mNP" id="8PK-Bb-GoN"/>
+                <outlet property="imageViewIcon" destination="BYD-8c-gYy" id="87Y-5B-I1w"/>
+                <outlet property="lbDev" destination="vtd-2a-bu8" id="zfM-EQ-dIh"/>
+                <outlet property="lbTitle" destination="N9c-81-mNP" id="RUE-y7-i3z"/>
             </connections>
         </tableViewCell>
     </objects>

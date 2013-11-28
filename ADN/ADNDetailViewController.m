@@ -11,14 +11,14 @@
 
 @interface ADNDetailViewController()<RKManagerDelegate, DetailScreenShotCellProtocol>
 {
-CellDescriptionappdetail *myClass;
-    enumDescriptionCellStatus _descriptionCellStatus;
+
 }
 
 @end
 
 @implementation ADNDetailViewController
-@synthesize titlenav;
+@synthesize titleNav;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -37,21 +37,20 @@ CellDescriptionappdetail *myClass;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _descriptionCellStatus = enumDescriptionCellStatus_Num;
-    self.tableviewdetail.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+    self.tableViewDetail.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
     
-    self.navigationController.navigationBar.topItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:titlenav style:UIBarButtonItemStylePlain target:nil action:nil];
-    [[self tableviewdetail]setDelegate:self];
-    [[self tableviewdetail]setDataSource:self];
-    if (![_detailapprecord.des isKindOfClass:[NSString class]] || _detailapprecord.des.length == 0) {
-        [[ADN_APIManager sharedAPIManager] RK_RequestApiGetAppDetail:self.detailapprecord.package appID:self.detailapprecord.app_id withContext:self];
+    self.navigationController.navigationBar.topItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:titleNav style:UIBarButtonItemStylePlain target:nil action:nil];
+    [[self tableViewDetail]setDelegate:self];
+    [[self tableViewDetail]setDataSource:self];
+    if (![_detailAppRecord.des isKindOfClass:[NSString class]] || _detailAppRecord.des.length == 0) {
+        [[ADN_APIManager sharedAPIManager] RK_RequestApiGetAppDetail:self.detailAppRecord.package appID:self.detailAppRecord.app_id withContext:self];
     }
 }
 
 -(NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
 {
     //return 0;
-   return [_detailapprecord.rate_c integerValue] == 0 ? 3 : 4;
+   return [_detailAppRecord.rate_c integerValue] == 0 ? 3 : 4;
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -59,7 +58,6 @@ CellDescriptionappdetail *myClass;
     {
     //        Storyboard
        NSString *CellIdentifier   = CellIdentifier = @"Celldetail";
-//      CellDetailapp *cell = (CellDetailapp *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         CellDetailapp *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if(!cell)
         {
@@ -68,51 +66,40 @@ CellDescriptionappdetail *myClass;
         
         if (cell)
         {
-            [cell setApprecorddetail:_detailapprecord];
-            [cell getdetailcontent];
+            [cell setAppRecordDetail:_detailAppRecord];
+            [cell getDetailContent];
         }
         return cell;        
     }
     else if (indexPath.row==1) // cell show app's screenshots
     {
-    //        Storyboard
         NSString *CellIdentifier   = [[DetailScreenShotCell class] description];
-//        DetailScreenShotCell *cell = (DetailScreenShotCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         DetailScreenShotCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if(!cell)
         {
             cell = (DetailScreenShotCell *) [[[NSBundle mainBundle] loadNibNamed:@"DetailScreenShotCell" owner:self options:nil] lastObject];
-            
         };
         cell.delegate = self;
-        [cell setObject:_detailapprecord];
+        [cell setObject:_detailAppRecord];
         return cell;
-        
-
     }
     else if (indexPath.row==2)
     {
-         //        Storyboard
-        
         NSString *CellIdentifier =@"CellDescriptionappdetail";
-    //       CellDescriptionappdetail *cell = (CellDescriptionappdetail *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         CellDescriptionappdetail *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if(!cell)
         {
             cell = (CellDescriptionappdetail *) [[[NSBundle mainBundle] loadNibNamed:@"CellDescriptionAppDetail" owner:self options:nil] lastObject];
+            [cell setDescription:_detailAppRecord.des];
+            cell.delegate=self;
         };
-        cell.delegate=self;
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        [cell setObject:[self  convertHTML:_detailapprecord.des] forState:_descriptionCellStatus];
-       
         return cell;
-
     }
     else if (indexPath.row==3)
     {
         //Stroyboard
         NSString *CellIdentifier  =  @"Cellratingpoint";
-//        Cellratingpoint *cell = (Cellratingpoint *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         Cellratingpoint *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if(!cell)
         {
@@ -120,7 +107,7 @@ CellDescriptionappdetail *myClass;
         }
         if (cell)
         {
-            [cell getratepoint:_detailapprecord.rate :_detailapprecord.ratings];
+            [cell getRatePoint:_detailAppRecord.rate :_detailAppRecord.ratings];
         }
         return cell;
     }
@@ -135,13 +122,13 @@ CellDescriptionappdetail *myClass;
     if (indexPath.row == 0) {
         return 120;
     }
-    else if (indexPath.row == 1) {
-        return [DetailScreenShotCell tableView:tableView rowHeightForObject:_detailapprecord];
-    } else if (indexPath.row == 2) {
-        
-        NSDictionary *tempDic = [CellDescriptionappdetail tableView:tableView rowHeightForObject:[self  convertHTML:_detailapprecord.des] forStatus:_descriptionCellStatus];
-        _descriptionCellStatus = [tempDic[@"status"] integerValue];
-        return [tempDic[@"height"] floatValue];
+    else if (indexPath.row == 1)
+    {
+        return [DetailScreenShotCell tableView:tableView rowHeightForObject:_detailAppRecord];
+    }
+    else if (indexPath.row == 2)
+    {
+        return [CellDescriptionappdetail getHeightOfCell];
     }
     return 157;
 }
@@ -150,15 +137,12 @@ CellDescriptionappdetail *myClass;
 {
    if (indexPath.row == 2) {
        // A case was selected, so push into the CellDescriptionappdetail
-       CellDescriptionappdetail *cell = (CellDescriptionappdetail*) ([tableView cellForRowAtIndexPath:indexPath]);
-       [cell btmore:nil];
     }
 }
 
 - (void)statusChanged:(enumDescriptionCellStatus)status
 {
-    _descriptionCellStatus = status;
-    [_tableviewdetail reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [_tableViewDetail reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 -(NSString *)convertHTML:(NSString *)html
@@ -186,15 +170,10 @@ CellDescriptionappdetail *myClass;
 -(void)screenShotCell:(DetailScreenShotCell *)cell didScroll:(UIScrollView *)scrollView
 {
     // move screenshot cell to center of screen
-    CGFloat cellHeight = [self heightToScrollTable:_tableviewdetail inRow:1];
+    CGFloat cellHeight = [self heightToScrollTable:_tableViewDetail inRow:1];
     [UIView animateWithDuration:0.3 animations:^{
-        self.tableviewdetail.contentOffset = CGPointMake(0, cellHeight);
+        self.tableViewDetail.contentOffset = CGPointMake(0, cellHeight);
     }];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-
 }
 
 -(CGFloat)heightToScrollTable:(UITableView *)myTable inRow:(int)section
@@ -216,14 +195,13 @@ CellDescriptionappdetail *myClass;
 {
     if (request_id == ID_REQUEST_GET_APP_DETAIL) {
         if (dictionary.curDictionary) {
-            [self.detailapprecord setTrailer:[dictionary.curDictionary objectForKey:@"trailer"]];
-            [self.detailapprecord setDes:[dictionary.curDictionary objectForKey:@"des"]];
-            [self.detailapprecord setImages:[dictionary.curDictionary objectForKey:@"images"]];
-            [self.detailapprecord setRatings:[dictionary.curDictionary objectForKey:@"ratings"]];
+            [self.detailAppRecord setTrailer:[dictionary.curDictionary objectForKey:@"trailer"]];
+            [self.detailAppRecord setDes:[dictionary.curDictionary objectForKey:@"des"]];
+            [self.detailAppRecord setImages:[dictionary.curDictionary objectForKey:@"images"]];
+            [self.detailAppRecord setRatings:[dictionary.curDictionary objectForKey:@"ratings"]];
         }
     }
-    [self.tableviewdetail reloadData];
+    [self.tableViewDetail reloadData];
 }
-
 
 @end

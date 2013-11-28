@@ -22,20 +22,15 @@ typedef enum
 @required
 - (void)statusChanged:(enumDescriptionCellStatus)status;
 @end
-@interface CellDescriptionappdetail : UITableViewCell
+@interface CellDescriptionappdetail : UITableViewCell <UIWebViewDelegate>
 {
-   id<MyClassDelegate> delegate;
-    enumDescriptionCellStatus _cellState;
-    
+   __weak id<MyClassDelegate> delegate;
 }
-
-@property (weak, nonatomic) IBOutlet UILabel *lbDescription;
-@property (strong, nonatomic) IBOutlet UIView *uiviewdescription;
+@property (nonatomic, weak) id delegate;
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (weak, nonatomic) IBOutlet UIButton *btnMore;
 - (IBAction)btmore:(id)sender;
-//-(void)getdescription :(NSString *)description ;
-@property (nonatomic, strong) id delegate;
-@property (strong, nonatomic) IBOutlet UIButton *uibtmore;
 
-- (void)setObject:(id)object forState:(enumDescriptionCellStatus)status;
-+ (NSDictionary*)tableView:(UITableView*)tableView rowHeightForObject:(id)object forStatus:(enumDescriptionCellStatus)status;
+- (void)setDescription:(NSString *)des;
++ (CGFloat)getHeightOfCell;
 @end

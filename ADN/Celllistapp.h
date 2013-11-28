@@ -14,16 +14,16 @@
 {
     float heighOneRowTitle;
 }
-@property (weak, nonatomic) IBOutlet SDImageView *imageviewlistapp;
+@property (weak, nonatomic) IBOutlet SDImageView *imageViewListApp;
 @property (weak, nonatomic) IBOutlet UIButton *btPrice;
-@property (weak, nonatomic) IBOutlet UILabel *Number;
-@property (weak, nonatomic) IBOutlet UILabel *Title;
-@property (weak, nonatomic) IBOutlet UILabel *categoryapp;
-@property (strong, nonatomic) Apprecord *apprecord;
+@property (weak, nonatomic) IBOutlet UILabel *number;
+@property (weak, nonatomic) IBOutlet UILabel *title;
+@property (weak, nonatomic) IBOutlet UILabel *categoryApp;
+@property (strong, nonatomic) Apprecord *appRecord;
 @property (weak, nonatomic) IBOutlet UILabel *downloadNumLbl;
 
 @property (strong, nonatomic) DYRateView *rateView;
 
--(void)CustomCell: (NSString *) number;
+-(void)customCell: (NSString *) number;
 - (IBAction)handleUpdateVersion:(id)sender;
 @end

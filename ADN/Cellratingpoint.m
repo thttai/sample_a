@@ -25,9 +25,9 @@
 
     // Configure the view for the selected state
 }
--(void)getratepoint :(NSString *)point : (NSArray *)array
+-(void)getRatePoint :(NSString *)point : (NSArray *)array
 {
-    _lbratepoint.text=point;
+    _lbRatePoint.text=point;
     DYRateView *rateView = [[DYRateView alloc] initWithFrame:CGRectMake(-10, 5, 100, 20)];
     rateView.rate = [point intValue];
     rateView.alignment = RateViewAlignmentRight;
@@ -35,49 +35,49 @@
 //rong 118
 //dai 12
     
-    _lbso1.text= [[array objectAtIndex:0] stringValue];
-    _lbso2.text= [[array objectAtIndex:1] stringValue];
-    _lbso3.text= [[array objectAtIndex:2] stringValue];
-    _lbso4.text= [[array objectAtIndex:3] stringValue];
-    _lbso5.text= [[array objectAtIndex:4] stringValue];
+    _lbSo1.text= [[array objectAtIndex:0] stringValue];
+    _lbSo2.text= [[array objectAtIndex:1] stringValue];
+    _lbSo3.text= [[array objectAtIndex:2] stringValue];
+    _lbSo4.text= [[array objectAtIndex:3] stringValue];
+    _lbSo5.text= [[array objectAtIndex:4] stringValue];
     int so1 = [[array objectAtIndex:0] intValue];
     int so2 = [[array objectAtIndex:1] intValue];
     int so3 = [[array objectAtIndex:2] intValue];
     int so4 = [[array objectAtIndex:3] intValue];
     int so5 = [[array objectAtIndex:4] intValue];
     int total = so1+so2+so3+so4+so5;
-     _lbtotal.text = [NSString stringWithFormat:@"%d", total];
+     _lbTotal.text = [NSString stringWithFormat:@"%d", total];
     if (total ==0)
     {
-        _lbcellrate1.frame = CGRectMake(165, 21, 0, 12);
+        _lbCellRate1.frame = CGRectMake(165, 21, 0, 12);
        
        
-        _lbcellrate2.frame = CGRectMake(165, 48, 0, 12);
+        _lbCellRate2.frame = CGRectMake(165, 48, 0, 12);
       
-        _lbcellrate3.frame = CGRectMake(165, 73, 0, 12);
+        _lbCellRate3.frame = CGRectMake(165, 73, 0, 12);
       
-        _lbcellrate4.frame = CGRectMake(165,100,0, 12);
+        _lbCellRate4.frame = CGRectMake(165,100,0, 12);
      
-       _lbcellrate5.frame = CGRectMake(165, 127, 0, 12);
+       _lbCellRate5.frame = CGRectMake(165, 127, 0, 12);
         return;
     }
     else
     {
-      float kqso1 = (float)so1/total;
-        int kqlabel = ((kqso1*110));
-     _lbcellrate1.frame = CGRectMake(_lbcellrate1.frame.origin.x,_lbcellrate1.frame.origin.y , kqlabel, _lbcellrate1.frame.size.height);
-        float kqso2 = (float)so2/total;
-        int kqlabel2 = ((kqso2*110));
-        _lbcellrate2.frame = CGRectMake(_lbcellrate2.frame.origin.x, _lbcellrate2.frame.origin.y , kqlabel2, _lbcellrate1.frame.size.height);
-        float kqso3 = (float)so3/total;
-        int kqlabel3 = ((kqso3*110));
-        _lbcellrate3.frame = CGRectMake(_lbcellrate3.frame.origin.x, _lbcellrate3.frame.origin.y , kqlabel3, _lbcellrate1.frame.size.height);
-       float kqso4 = (float)so4/total;
-        int kqlabel4 = ((kqso4*110));
-        _lbcellrate4.frame = CGRectMake(_lbcellrate4.frame.origin.x,_lbcellrate4.frame.origin.y , kqlabel4, _lbcellrate1.frame.size.height);
-        float kqso5 = (float)so5/total;
-        int kqlabel5 = ((kqso5*110));
-        _lbcellrate5.frame = CGRectMake(_lbcellrate5.frame.origin.x, _lbcellrate5.frame.origin.y , kqlabel5, _lbcellrate1.frame.size.height);
+      float kqSo1 = (float)so1/total;
+        int kqLabel = ((kqSo1*110));
+     _lbCellRate1.frame = CGRectMake(_lbCellRate1.frame.origin.x,_lbCellRate1.frame.origin.y , kqLabel, _lbCellRate1.frame.size.height);
+        float kqSo2 = (float)so2/total;
+        int kqLabel2 = ((kqSo2*110));
+        _lbCellRate2.frame = CGRectMake(_lbCellRate2.frame.origin.x, _lbCellRate2.frame.origin.y , kqLabel2, _lbCellRate1.frame.size.height);
+        float kqSo3 = (float)so3/total;
+        int kqLabel3 = ((kqSo3*110));
+        _lbCellRate3.frame = CGRectMake(_lbCellRate3.frame.origin.x, _lbCellRate3.frame.origin.y , kqLabel3, _lbCellRate1.frame.size.height);
+       float kqSo4 = (float)so4/total;
+        int kqLabel4 = ((kqSo4*110));
+        _lbCellRate4.frame = CGRectMake(_lbCellRate4.frame.origin.x,_lbCellRate4.frame.origin.y , kqLabel4, _lbCellRate1.frame.size.height);
+        float kqSo5 = (float)so5/total;
+        int kqlabel5 = ((kqSo5*110));
+        _lbCellRate5.frame = CGRectMake(_lbCellRate5.frame.origin.x, _lbCellRate5.frame.origin.y , kqlabel5, _lbCellRate1.frame.size.height);
     }
 }
 @end

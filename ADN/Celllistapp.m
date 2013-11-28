@@ -43,22 +43,22 @@
 {
     [super prepareForReuse];
     UIImage *placeholder = [UIImage imageNamed:@"placeholder.png"];
-    _imageviewlistapp.clipsToBounds = YES;
-    _imageviewlistapp.layer.cornerRadius = 15;
-    [_imageviewlistapp setImage:placeholder];
+    _imageViewListApp.clipsToBounds = YES;
+    _imageViewListApp.layer.cornerRadius = 15;
+    [_imageViewListApp setImage:placeholder];
     
 }
 //customCell listapp
--(void)CustomCell: (NSString *) number 
+-(void)customCell: (NSString *) number 
 {
     if (heighOneRowTitle == 0) {
-        heighOneRowTitle = [@"ABC" sizeWithFont:self.Title.font].height;
+        heighOneRowTitle = [@"ABC" sizeWithFont:self.title.font].height;
     }
     //NSLog("%@",Apprecord.title);
      //Add label Number to list app
     
     // Get old Title font size
-    CGSize oldTitleSize = [self.Title.text sizeWithFont:self.Title.font constrainedToSize:CGSizeMake(self.Title.frame.size.width, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize oldTitleSize = [self.title.text sizeWithFont:self.title.font constrainedToSize:CGSizeMake(self.title.frame.size.width, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
 //    NSLog(@"-OLD----%f--%f",oldTitleSize.width,oldTitleSize.height);
 
@@ -68,10 +68,10 @@
     }
     
     //Add label title
-    [self.Title setText:_apprecord.name];
+    [self.title setText:_appRecord.name];
     
     // Get Title size
-    CGSize titleSize = [self.Title.text sizeWithFont:self.Title.font constrainedToSize:CGSizeMake(self.Title.frame.size.width, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize titleSize = [self.title.text sizeWithFont:self.title.font constrainedToSize:CGSizeMake(self.title.frame.size.width, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
 //    NSLog(@"--New---%f--%f",titleSize.width,titleSize.height);
     
@@ -85,45 +85,45 @@
         // Do nothing due to reused cell had the same size with old cell
     } else {
         if (numberTitleLine == 1) {
-            self.Title.frame = CGRectMake(self.Title.frame.origin.x, 18, self.Title.frame.size.width, titleSize.height);
+            self.title.frame = CGRectMake(self.title.frame.origin.x, 18, self.title.frame.size.width, titleSize.height);
         } else {
-            self.Title.frame = CGRectMake(self.Title.frame.origin.x, 9, self.Title.frame.size.width, 2*17.0f);
+            self.title.frame = CGRectMake(self.title.frame.origin.x, 9, self.title.frame.size.width, 2*17.0f);
         }
-        self.categoryapp.frame = CGRectMake(self.categoryapp.frame.origin.x, self.Title.frame.origin.y + self.Title.frame.size.height + PADDING, self.categoryapp.frame.size.width, 15);
+        self.categoryApp.frame = CGRectMake(self.categoryApp.frame.origin.x, self.title.frame.origin.y + self.title.frame.size.height + PADDING, self.categoryApp.frame.size.width, 15);
         
     }
     if (numberTitleLine != numberOldTitleLine || self.rateView.frame.size.width == 0)
     {
-        self.downloadNumLbl.frame = CGRectMake(self.downloadNumLbl.frame.origin.x, self.categoryapp.frame.origin.y + self.categoryapp.frame.size.height, self.downloadNumLbl.frame.size.width, 15);
-        self.rateView.frame = CGRectMake(self.categoryapp.frame.origin.x, self.categoryapp.frame.origin.y + self.categoryapp.frame.size.height + PADDING, 14.0f*7, 14.0f);
+        self.downloadNumLbl.frame = CGRectMake(self.downloadNumLbl.frame.origin.x, self.categoryApp.frame.origin.y + self.categoryApp.frame.size.height, self.downloadNumLbl.frame.size.width, 15);
+        self.rateView.frame = CGRectMake(self.categoryApp.frame.origin.x, self.categoryApp.frame.origin.y + self.categoryApp.frame.size.height + PADDING, 14.0f*7, 14.0f);
     }
     
-    [self.Number setText:number];
+    [self.number setText:number];
     
     //Add label category to list app
-    NSString *categoryName = _apprecord.cat_n;
-    if (!categoryName) categoryName = _apprecord.cat_name;
-    [self.categoryapp setText:categoryName];
+    NSString *categoryName = _appRecord.cat_n;
+    if (!categoryName) categoryName = _appRecord.cat_name;
+    [self.categoryApp setText:categoryName];
     //Add Button Price to list app
    // [self.Rate setText:_apprecord.rate];
      [self.btPrice setTitle:@"Free" forState:UIControlStateNormal];
     //Add image to list app to list app
-    [self.imageviewlistapp setImageWithURL:[NSURL URLWithString:_apprecord.icon]];
-    self.rateView.rate = [_apprecord.rate intValue];
-    self.downloadNumLbl.text = [NSString stringWithFormat:@"(%@)", _apprecord.downloads];
+    [self.imageViewListApp setImageWithURL:[NSURL URLWithString:_appRecord.icon]];
+    self.rateView.rate = [_appRecord.rate intValue];
+    self.downloadNumLbl.text = [NSString stringWithFormat:@"(%@)", _appRecord.downloads];
     if (_btPrice.layer.borderColor != _btPrice.titleLabel.textColor.CGColor)
     {
         _btPrice.layer.borderWidth=1;
         _btPrice.layer.borderColor = _btPrice.titleLabel.textColor.CGColor;
         _btPrice.layer.cornerRadius = 4;
-        _imageviewlistapp.clipsToBounds = YES;
-        _imageviewlistapp.layer.cornerRadius = 15;
+        _imageViewListApp.clipsToBounds = YES;
+        _imageViewListApp.layer.cornerRadius = 15;
     }
 }
 
 - (IBAction)handleUpdateVersion:(id)sender
 {
     // get indexpath button
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_apprecord.official_link]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_appRecord.official_link]];
 }
 @end

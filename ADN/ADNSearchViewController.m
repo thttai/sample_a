@@ -21,7 +21,7 @@
 @end
 
 @implementation ADNSearchViewController {
-    double      starttime;
+    double      startTime;
     NSDate      *date;
     NSString    *searchString;
     NSTimer     *timerMain;
@@ -47,13 +47,13 @@
     [super viewDidLoad];
     
     date = [NSDate date];
-    starttime = [date timeIntervalSinceNow] * -1000.0;
+    startTime = [date timeIntervalSinceNow] * -1000.0;
     searchString = @"";
     
-    [[self tableviewsearch]setDelegate:self];
-    [[self tableviewsearch]setDataSource:self];
+    [[self tableViewSearch]setDelegate:self];
+    [[self tableViewSearch]setDataSource:self];
     self.navigationController.navigationBar.topItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"ADN" style:UIBarButtonItemStylePlain target:nil action:nil];
-   [self.searchbar becomeFirstResponder];
+   [self.searchBar becomeFirstResponder];
     _isFilterSearch = NO;
 }
 
@@ -81,11 +81,11 @@
 
 - (void)searchAction
 {
-    [self filterContentForSearchText:searchString];[self.searchbar becomeFirstResponder];
+    [self filterContentForSearchText:searchString];[self.searchBar becomeFirstResponder];
     if (!_isSearchFound) {
         [[ADN_APIManager sharedAPIManager] RK_RequestApiGetListAppBySearchKey:searchString withContext:self];
     } else {
-        [self.tableviewsearch reloadData];
+        [self.tableViewSearch reloadData];
     }
 }
 
@@ -105,8 +105,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *CellIdentifier  = @"Cellsearch";
-   Celllistapp *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    NSString *cellIdentifier  = @"Cellsearch";
+   Celllistapp *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if(!cell)
     {
         cell = (Celllistapp *) [[[NSBundle mainBundle] loadNibNamed:@"CellListApp" owner:self options:nil] lastObject];
@@ -116,13 +116,13 @@
     {
         if (_isFilterSearch)
         {
-            [cell setApprecord:[self.searchResults objectAtIndex:indexPath.row]];
+            [cell setAppRecord:[self.searchResults objectAtIndex:indexPath.row]];
         }
         else
         {
-            [cell setApprecord:[self.dataArray objectAtIndex:indexPath.row]];
+            [cell setAppRecord:[self.dataArray objectAtIndex:indexPath.row]];
         }
-        [cell CustomCell:indexrow];
+        [cell customCell:indexrow];
         [cell setAccessoryType:UITableViewCellAccessoryNone];
         [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     }
@@ -137,7 +137,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [_searchbar resignFirstResponder];
+    [_searchBar resignFirstResponder];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ADNDetailViewController *detail = [[ADNDetailViewController alloc] initWithNibName:[[ADNDetailViewController class] description] bundle:nil];
     Apprecord *temp = [self.dataArray objectAtIndex:indexPath.row];
@@ -146,7 +146,7 @@
     {
         temp = [self.searchResults objectAtIndex:indexPath.row];
     }
-    [detail setDetailapprecord:temp];
+    [detail setDetailAppRecord:temp];
     [self.navigationController pushViewController:detail animated:YES];
 }
 
@@ -169,10 +169,10 @@
 
     // Rule 2
     double endtime = [date timeIntervalSinceNow] * -1000.0;
-    NSLog(@"starttime %f endtime %f",starttime,endtime);
-    double diff = endtime - starttime;
+    NSLog(@"starttime %f endtime %f",startTime,endtime);
+    double diff = endtime - startTime;
     NSLog(@"Diff - %f", diff);
-    starttime = endtime;
+    startTime = endtime;
     [timerMain invalidate];
     if (diff <= MINIMUM_MILISECONDS) {
         timerMain = [NSTimer scheduledTimerWithTimeInterval:MINIMUM_MILISECONDS/1000.0 target:self selector:@selector(searchAction) userInfo:nil repeats:NO];
@@ -185,12 +185,12 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;
 {
     [self searchAction];
-    [_searchbar resignFirstResponder];
+    [_searchBar resignFirstResponder];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [_searchbar resignFirstResponder];
+    [_searchBar resignFirstResponder];
 }
 
 #pragma mark -
@@ -201,7 +201,7 @@
     {
         _searchResults = [NSMutableArray arrayWithArray:array];
     }
-    [_tableviewsearch reloadData];
+    [_tableViewSearch reloadData];
 }
 
 -(void)processFailedRequestId:(int)request_id
@@ -213,6 +213,6 @@
            [_searchResults removeAllObjects];
         }
     }
-    [_tableviewsearch reloadData];
+    [_tableViewSearch reloadData];
 }
 @end

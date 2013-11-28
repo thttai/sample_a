@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1280" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ADNViewController">
             <connections>
-                <outlet property="Segment" destination="8Oc-rU-MPf" id="kQI-ko-aDz"/>
-                <outlet property="Tableviewlistapp" destination="S7q-Jj-EKJ" id="qz6-7u-Kkg"/>
                 <outlet property="bannerScrollView" destination="ZNb-R1-N4r" id="tzj-a8-BPL"/>
                 <outlet property="bannerView" destination="V0i-h7-cGw" id="vEE-ra-7xf"/>
                 <outlet property="pageControlView" destination="jDb-C6-Asw" id="Zqg-KY-25x"/>
+                <outlet property="segment" destination="8Oc-rU-MPf" id="eF0-f2-PMJ"/>
                 <outlet property="segmentedView" destination="G2e-1Y-TwS" id="p3c-lJ-uac"/>
+                <outlet property="tableViewListApp" destination="S7q-Jj-EKJ" id="MDl-xl-6Xs"/>
                 <outlet property="view" destination="2ma-Yb-Cvz" id="Kbl-nV-dng"/>
             </connections>
         </placeholder>
@@ -27,69 +27,6 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <inset key="scrollIndicatorInsets" minX="0.0" minY="162" maxX="0.0" maxY="0.0"/>
                     <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <prototypes>
-                        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="85" id="3Uo-ax-JuO" customClass="Celllistapp">
-                            <rect key="frame" x="0.0" y="22" width="320" height="85"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Uo-ax-JuO" id="qXS-qr-PBp">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hmR-vK-WWD">
-                                        <rect key="frame" x="8" y="34" width="31" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="5S2-JQ-xoT" customClass="SDImageView">
-                                        <rect key="frame" x="42" y="10" width="65" height="65"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="bottomRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pc4-DO-dHF">
-                                        <rect key="frame" x="119" y="3" width="130" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="category app" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7GX-S0-OQf">
-                                        <rect key="frame" x="119" y="41" width="130" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(num download)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0j1-MN-Hfa">
-                                        <rect key="frame" x="175" y="58" width="90" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gXf-R1-G6o">
-                                        <rect key="frame" x="250" y="29" width="55" height="27"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="13"/>
-                                        <state key="normal" title="Price">
-                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="handleUpdateVersion:" destination="3Uo-ax-JuO" eventType="touchUpInside" id="hcB-aj-9ma"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </tableViewCellContentView>
-                            <connections>
-                                <outlet property="Number" destination="hmR-vK-WWD" id="uv0-Df-zjn"/>
-                                <outlet property="Title" destination="pc4-DO-dHF" id="ADW-Is-QU8"/>
-                                <outlet property="btPrice" destination="gXf-R1-G6o" id="Y8L-cL-u4H"/>
-                                <outlet property="categoryapp" destination="7GX-S0-OQf" id="Wcy-fc-mqm"/>
-                                <outlet property="downloadNumLbl" destination="0j1-MN-Hfa" id="E2q-Pe-w9d"/>
-                                <outlet property="imageviewlistapp" destination="5S2-JQ-xoT" id="baq-rT-Ks3"/>
-                            </connections>
-                        </tableViewCell>
-                    </prototypes>
                 </tableView>
                 <view contentMode="scaleToFill" id="V0i-h7-cGw">
                     <rect key="frame" x="0.0" y="44" width="320" height="118"/>
@@ -124,7 +61,7 @@
                                 <segment title="Third"/>
                             </segments>
                             <connections>
-                                <action selector="btsegemented:" destination="-1" eventType="valueChanged" id="kcy-Yh-yEP"/>
+                                <action selector="btSegemented:" destination="-1" eventType="valueChanged" id="E8i-Ay-8Nb"/>
                             </connections>
                         </segmentedControl>
                     </subviews>

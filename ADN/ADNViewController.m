@@ -11,6 +11,8 @@
 #import "ADNViewController.h"
 #import "ADN_APIManager.h"
 #import "CellBanner.h"
+#import "UIViewController+CustomNavigation.h"
+#import "UIViewController+TabBarAnimation.h"
 
 
 @interface ADNViewController ()<RKManagerDelegate, UISearchDisplayDelegate, UISearchBarDelegate>
@@ -26,53 +28,44 @@
 }
 
 - (void)dealloc {
-    [_MutableArrayListApp removeAllObjects];
-    [_MutableArrayListAppseg1 removeAllObjects];
-    [_MutableArrayListAppseg2 removeAllObjects];
-    [_MutableArrayListAppseg3 removeAllObjects];
-    [_MutableArrayListCategory removeAllObjects];
+    [_mutableArrayListApp removeAllObjects];
+    [_mutableArrayListAppseg1 removeAllObjects];
+    [_mutableArrayListAppseg2 removeAllObjects];
+    [_mutableArrayListAppseg3 removeAllObjects];
+    [_mutableArrayListCategory removeAllObjects];
     
-    _MutableArrayListApp = nil;
-    _MutableArrayListAppseg1 = nil;
-    _MutableArrayListAppseg2 = nil;
-    _MutableArrayListAppseg3 = nil;
-    _MutableArrayListCategory = nil;
+    _mutableArrayListApp = nil;
+    _mutableArrayListAppseg1 = nil;
+    _mutableArrayListAppseg2 = nil;
+    _mutableArrayListAppseg3 = nil;
+    _mutableArrayListCategory = nil;
 }
 
 - (void)viewDidLoad
 {
-//     UIBarButtonItem *btdownload = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actiondownload:)];
-    UIBarButtonItem *btsearch = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(actionsearch:)];
-    NSArray *myButtonArray = [[NSArray alloc] initWithObjects: btsearch, nil];
+    UIBarButtonItem *btSearch = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(actionSearch:)];
+    NSArray *myButtonArray = [[NSArray alloc] initWithObjects: btSearch, nil];
     self.navigationItem.rightBarButtonItems = myButtonArray;
     checkcat_id=0;
-    _MutableArrayListApp = [[NSMutableArray alloc]init];
-    _MutableArrayListAppseg1 = [[NSMutableArray alloc]init];
-    _MutableArrayListAppseg2 = [[NSMutableArray alloc]init];
-    _MutableArrayListAppseg3 = [[NSMutableArray alloc]init];
-    _MutableArrayListCategory = [[NSMutableArray alloc]init];
+    _mutableArrayListApp = [[NSMutableArray alloc]init];
+    _mutableArrayListAppseg1 = [[NSMutableArray alloc]init];
+    _mutableArrayListAppseg2 = [[NSMutableArray alloc]init];
+    _mutableArrayListAppseg3 = [[NSMutableArray alloc]init];
+    _mutableArrayListCategory = [[NSMutableArray alloc]init];
     [[ADN_APIManager sharedAPIManager] RK_RequestApiGetListCategoryContext:self];
     [super viewDidLoad];
-    [[self Tableviewlistapp]setDelegate:self];
-    [[self Tableviewlistapp]setDataSource:self];
+    [[self tableViewListApp]setDelegate:self];
+    [[self tableViewListApp]setDataSource:self];
     // set blur radius for segmented view
     self.segmentedView.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.97f];
     [self performHideTabBar];
+//    [self setCustomBarRightWithImage:[UIImage imageNamed:@"down.png"] selector:@selector(processActionSearch) context_id:self];
 }
 
-- (void)performHideTabBar
-{
-    CGRect frame = self.tabBarController.tabBar.frame;
-    frame.origin.y += frame.size.height;
-    if (frame.origin.y == self.tabBarController.tabBar.window.frame.size.height)
-    {
-        frame.origin.y++;
-        [UIView animateWithDuration:0.4 delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-            self.tabBarController.tabBar.frame = frame;
-        } completion:^(BOOL finished) {
-        }];
-    }
-}
+//-(void)processActionSearch
+//{
+//    NSLog(@"----Process search here-----");
+//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -88,13 +81,13 @@
 
 -(NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
 {
-    return [_MutableArrayListApp count];
+    return [_mutableArrayListApp count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //story board
-    NSString *CellIdentifier = @"Cellsearch";
-    Celllistapp *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    NSString *cellIdentifier = @"Cellsearch";
+    Celllistapp *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if(!cell)
     {
         cell = (Celllistapp *) [[[NSBundle mainBundle] loadNibNamed:@"CellListApp" owner:self options:nil] lastObject];
@@ -102,8 +95,8 @@
     NSString *indexrow = [NSString stringWithFormat:@"%d",(int)indexPath.row + 1];
     if (cell)
     {
-        [cell setApprecord:[self.MutableArrayListApp objectAtIndex:indexPath.row]];
-        [cell CustomCell:indexrow];
+        [cell setAppRecord:[self.mutableArrayListApp objectAtIndex:indexPath.row]];
+        [cell customCell:indexrow];
         [cell setAccessoryType:UITableViewCellAccessoryNone];
         [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     }
@@ -121,19 +114,19 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ADNDetailViewController *detail = [[ ADNDetailViewController alloc] initWithNibName:@"ADNDetailViewController" bundle:[NSBundle mainBundle]];
-    Apprecord *temp = [self.MutableArrayListApp objectAtIndex:indexPath.row];
-    [detail setDetailapprecord:temp];
-    if(_Segment.selectedSegmentIndex == 0)
+    Apprecord *temp = [self.mutableArrayListApp objectAtIndex:indexPath.row];
+    [detail setDetailAppRecord:temp];
+    if(_segment.selectedSegmentIndex == 0)
     {
-      [detail setTitlenav:[_Segment titleForSegmentAtIndex:0]];
+      [detail setTitleNav:[_segment titleForSegmentAtIndex:0]];
     }
-    else if(_Segment.selectedSegmentIndex == 1)
+    else if(_segment.selectedSegmentIndex == 1)
     {
-          [detail setTitlenav:[_Segment titleForSegmentAtIndex:1]];
+          [detail setTitleNav:[_segment titleForSegmentAtIndex:1]];
     }
-    else if(_Segment.selectedSegmentIndex == 2)
+    else if(_segment.selectedSegmentIndex == 2)
     {
-        [detail setTitlenav:[_Segment titleForSegmentAtIndex:2]];
+        [detail setTitleNav:[_segment titleForSegmentAtIndex:2]];
     }
     [self.navigationController pushViewController:detail animated:YES];
 }
@@ -170,7 +163,7 @@
 {
 //    NSLog(@"scrollViewDidScroll-3 %f", scrollView.contentOffset.y);
     // update header position
-    if (scrollView == self.Tableviewlistapp) {
+    if (scrollView == self.tableViewListApp) {
         CGFloat offsetY = scrollView.contentOffset.y;
         CGFloat insetTop = scrollView.contentInset.top;
         if (offsetY > -insetTop) {
@@ -189,47 +182,47 @@
 }
 
 #pragma mark - View Actions
-- (IBAction)btsegemented:(id)sender {
-    checkcat_id = self.Segment.selectedSegmentIndex;
-    [self processlistcatagory];
-    [_Tableviewlistapp reloadData];
+- (IBAction)btSegemented:(id)sender {
+    checkcat_id = self.segment.selectedSegmentIndex;
+    [self processListCatagory];
+    [_tableViewListApp reloadData];
 
 }
 
-- (void) actionsearch:(id)sender {
+- (void) actionSearch:(id)sender {
     ADNSearchViewController *search = [[ADNSearchViewController alloc] initWithNibName:[[ADNSearchViewController class] description] bundle:nil];
     [search setDataArray:nil];
     [self.navigationController pushViewController:search animated:YES];
 }
-- (void) actiondownload:(id)sender {
+- (void) actionDownload:(id)sender {
 //    NSLog(@"click download");
 }
 
 #pragma mark - Helper Methods
 
--(void)processlistcatagory
+-(void)processListCatagory
 {
     // Load data for correspond category ID
     
     BOOL isDataLoaded = NO;
     switch (checkcat_id) {
         case ENUM_ADN_CATEGORY_TYPE_FAVORITE: {
-            if ([self.MutableArrayListAppseg1 count] > 0) {
-                self.MutableArrayListApp = self.MutableArrayListAppseg1;
+            if ([self.mutableArrayListAppseg1 count] > 0) {
+                self.mutableArrayListApp = self.mutableArrayListAppseg1;
                 isDataLoaded = YES;
             }
             break;
         }
         case ENUM_ADN_CATEGORY_TYPE_DOWNLOAD: {
-            if ([self.MutableArrayListAppseg2 count] > 0) {
-                self.MutableArrayListApp = self.MutableArrayListAppseg2;
+            if ([self.mutableArrayListAppseg2 count] > 0) {
+                self.mutableArrayListApp = self.mutableArrayListAppseg2;
                 isDataLoaded = YES;
             }
             break;
         }
         case ENUM_ADN_CATEGORY_TYPE_TREND: {
-            if ([self.MutableArrayListAppseg3 count] > 0) {
-                self.MutableArrayListApp = self.MutableArrayListAppseg3;
+            if ([self.mutableArrayListAppseg3 count] > 0) {
+                self.mutableArrayListApp = self.mutableArrayListAppseg3;
                 isDataLoaded = YES;
             }
             break;
@@ -239,9 +232,9 @@
     }
     
     if (!isDataLoaded) {
-        AppCategory *temp  =  [self.MutableArrayListCategory objectAtIndex:checkcat_id];
+        AppCategory *temp  =  [self.mutableArrayListCategory objectAtIndex:checkcat_id];
         int cat_id = [temp.cat_id intValue];
-        [_Segment setTitle:temp.name forSegmentAtIndex:checkcat_id];
+        [_segment setTitle:temp.name forSegmentAtIndex:checkcat_id];
         [[ADN_APIManager sharedAPIManager] RK_RequestApiGetListAppByCategory:cat_id withContext:self];
     }
     
@@ -305,21 +298,21 @@
 
 -(void)updateBannerView
 {
-    AppCategory *temp = [_MutableArrayListCategory objectAtIndex:_Segment.selectedSegmentIndex];
+    AppCategory *temp = [_mutableArrayListCategory objectAtIndex:_segment.selectedSegmentIndex];
     if (temp.banner)
     {
         self.bannerView.hidden = NO;
-        self.Tableviewlistapp.contentInset = UIEdgeInsetsMake(162, 0, 0, 0); // has banner view
-        self.Tableviewlistapp.scrollIndicatorInsets = self.Tableviewlistapp.contentInset;
+        self.tableViewListApp.contentInset = UIEdgeInsetsMake(162, 0, 0, 0); // has banner view
+        self.tableViewListApp.scrollIndicatorInsets = self.tableViewListApp.contentInset;
         [self addBanner:temp.banner];
         
         // update banner position
-        [self scrollViewDidScroll:self.Tableviewlistapp];
+        [self scrollViewDidScroll:self.tableViewListApp];
         
     } else {
         self.bannerView.hidden = YES;
-        self.Tableviewlistapp.contentInset = UIEdgeInsetsMake(44, 0, 0, 0); // doesn't have banner view
-        self.Tableviewlistapp.scrollIndicatorInsets = self.Tableviewlistapp.contentInset;
+        self.tableViewListApp.contentInset = UIEdgeInsetsMake(44, 0, 0, 0); // doesn't have banner view
+        self.tableViewListApp.scrollIndicatorInsets = self.tableViewListApp.contentInset;
         
     }
 }
@@ -330,31 +323,31 @@
 -(void)processResultResponseArray:(NSArray *)array requestId:(int)request_id
 {
     if (request_id == ID_REQUEST_GET_CATEGORY) {
-        self.MutableArrayListCategory = [NSMutableArray arrayWithArray:array];
+        self.mutableArrayListCategory = [NSMutableArray arrayWithArray:array];
         
         // Fill text into Segment buttons
         for (int i= 0; i < ENUM_ADN_CATEGORY_TYPE_NUM;i++) {
-            AppCategory *temp  =  [self.MutableArrayListCategory objectAtIndex:i];
-            [_Segment setTitle:temp.name forSegmentAtIndex:i];
+            AppCategory *temp  =  [self.mutableArrayListCategory objectAtIndex:i];
+            [_segment setTitle:temp.name forSegmentAtIndex:i];
         }
         
-        [self processlistcatagory];
+        [self processListCatagory];
         return;
     } else if (request_id == ID_REQUEST_GET_LIST_APP_BY_CATEGORY ) {
         switch (checkcat_id) {
             case ENUM_ADN_CATEGORY_TYPE_FAVORITE: {
-                _MutableArrayListAppseg1 = [NSMutableArray arrayWithArray:array];
-                _MutableArrayListApp = _MutableArrayListAppseg1;
+                _mutableArrayListAppseg1 = [NSMutableArray arrayWithArray:array];
+                _mutableArrayListApp = _mutableArrayListAppseg1;
                 break;
             }
             case ENUM_ADN_CATEGORY_TYPE_DOWNLOAD: {
-                _MutableArrayListAppseg2 = [NSMutableArray arrayWithArray:array];
-                _MutableArrayListApp = _MutableArrayListAppseg2;
+                _mutableArrayListAppseg2 = [NSMutableArray arrayWithArray:array];
+                _mutableArrayListApp = _mutableArrayListAppseg2;
                 break;
             }
             case ENUM_ADN_CATEGORY_TYPE_TREND: {
-                _MutableArrayListAppseg3 = [NSMutableArray arrayWithArray:array];
-                _MutableArrayListApp = _MutableArrayListAppseg3;
+                _mutableArrayListAppseg3 = [NSMutableArray arrayWithArray:array];
+                _mutableArrayListApp = _mutableArrayListAppseg3;
                 break;
             }
             default: {
@@ -362,6 +355,6 @@
             }
         }
     }
-    [_Tableviewlistapp reloadData];
+    [_tableViewListApp reloadData];
 }
 @end

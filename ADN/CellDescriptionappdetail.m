@@ -8,11 +8,28 @@
 
 #import "CellDescriptionappdetail.h"
 
-#define DESCRIPTION_WIDTH 293.0f
 #define DESCRIPTION_SHORT_HEIGHT 85.0f
+#define DEFAULT_HEIGH_CELL_DES 125.0f
+#define MARGIN_CELL_DETAIL 8.0f
+
+static float heightForCell;
+static enumDescriptionCellStatus statusShowDes;
 
 @implementation CellDescriptionappdetail
 @synthesize delegate;
+
+-(void)dealloc
+{
+    heightForCell = DEFAULT_HEIGH_CELL_DES;
+    statusShowDes = enumDescriptionCellStatus_Short;
+    [_webView stopLoading];
+    [_webView setDelegate:nil];
+    [_webView removeFromSuperview];
+    _webView = nil;
+    _btnMore = nil;
+    delegate = nil;
+}
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -22,93 +39,78 @@
     return self;
 }
 
-//- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-//{
-//    //[super setSelected:selected animated:animated];
-//
-//    // Configure the view for the selected state
-//}
-
-+ (NSDictionary*)tableView:(UITableView*)tableView rowHeightForObject:(id)object forStatus:(enumDescriptionCellStatus)status
++ (CGFloat) getHeightOfCell
 {
-    NSString *text = object;
-    CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(DESCRIPTION_WIDTH, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-    CGFloat height = size.height;
-    if (height > 0) {
-        if (height <= DESCRIPTION_SHORT_HEIGHT || status == enumDescriptionCellStatus_Full) {
-            height += 35;
-            // update status
-            status = status == enumDescriptionCellStatus_Num ? enumDescriptionCellStatus_Full : status;
-        }
-        else // status == enumDescriptionCellStatus_Short  or undefine status
-        {
-            height = DESCRIPTION_SHORT_HEIGHT + 35;
-            // update status
-            status = status == enumDescriptionCellStatus_Num ? enumDescriptionCellStatus_Short :status;
-        }
+    if (statusShowDes == enumDescriptionCellStatus_Full) {
+        return heightForCell;
     }
-    
-    // return updated status and height
-    return [NSDictionary dictionaryWithObjectsAndKeys:@(height), @"height", @(status), @"status", nil];
+    return DEFAULT_HEIGH_CELL_DES;
 }
 
 - (IBAction)btmore:(id)sender {
-    if (self.uibtmore) {
-        
-    }
-    if (_cellState == enumDescriptionCellStatus_Full) {
-        _cellState = enumDescriptionCellStatus_Short;
+    if (statusShowDes == enumDescriptionCellStatus_Full)
+    {
+        statusShowDes = enumDescriptionCellStatus_Short;
+        heightForCell = DEFAULT_HEIGH_CELL_DES;
     } else {
-        _cellState = enumDescriptionCellStatus_Full;
+        statusShowDes = enumDescriptionCellStatus_Full;
+        heightForCell = self.webView.scrollView.contentSize.height + self.btnMore.frame.size.height + 2*MARGIN_CELL_DETAIL;
     }
-    [delegate statusChanged:_cellState];
+    [delegate statusChanged:statusShowDes];
 }
 
-- (void)setObject:(id)object forState:(enumDescriptionCellStatus)status
+- (void)setDescription:(NSString *)des
 {
-    self.lbDescription.text = object;
-    _cellState = status;
+    heightForCell = DEFAULT_HEIGH_CELL_DES;
+    [self loadContentForWebViewWithDesc:des];
 }
 
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    self.uibtmore.hidden = NO;
-    CGSize size = [self.lbDescription.text sizeWithFont:self.lbDescription.font constrainedToSize:CGSizeMake(DESCRIPTION_WIDTH, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
-    CGRect r = self.lbDescription.frame;
-    CGRect b = self.uibtmore.frame;
-    
-    if (size.height <= DESCRIPTION_SHORT_HEIGHT || _cellState == enumDescriptionCellStatus_Full) {
-        r.size.height = size.height;
-        self.lbDescription.numberOfLines = 0;
-        b.origin.y = size.height+10;
-        if (r.size.height < DESCRIPTION_SHORT_HEIGHT) {
-            self.uibtmore.hidden = YES;
-        } else {
-            self.uibtmore.hidden = NO;
-        }
-        
+    CGRect r = self.webView.frame;
+    CGRect b = self.btnMore.frame;
+    if (statusShowDes == enumDescriptionCellStatus_Full) {
+        r.size.height = self.webView.scrollView.contentSize.height;
+        [self.btnMore setImage:[UIImage imageNamed:@"up.png"] forState:UIControlStateNormal];
     } else {
         r.size.height = DESCRIPTION_SHORT_HEIGHT;
-        b.origin.y = DESCRIPTION_SHORT_HEIGHT+10;
-        self.lbDescription.numberOfLines = 5;
-        self.uibtmore.hidden = NO;
+        [self.btnMore setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
     }
+    b.origin.y = r.origin.y + r.size.height;
     
-    [UIView animateWithDuration:0.2 animations:^{
-        self.lbDescription.frame = r;
-    } completion:^(BOOL finished) {
-        self.uibtmore.frame=b;
-        if (size.height <= DESCRIPTION_SHORT_HEIGHT || _cellState == enumDescriptionCellStatus_Full) {
-            [_uibtmore setImage:[UIImage imageNamed:@"up.png"] forState:UIControlStateNormal];
-        } else {
-            [_uibtmore setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
-        }
-        if ([_lbDescription.text isEqualToString:@""])
-        {
-            self.uibtmore.hidden = YES;
-        }
-    }];
-    
+//    [UIView animateWithDuration:0.5 animations:^{
+        self.webView.frame = r;
+        self.btnMore.frame=b;
+//    } completion:^(BOOL finished) {
+//        if (statusShowDes == enumDescriptionCellStatus_Full)
+//        {
+//            [self.btnMore setImage:[UIImage imageNamed:@"up.png"] forState:UIControlStateNormal];
+//        } else {
+//            [self.btnMore setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
+//        }
+//    }];
+}
+
+-(void)loadContentForWebViewWithDesc: (NSString *) desc
+{
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    NSURL *baseURL = [NSURL fileURLWithPath:path];
+    NSString *myHTML = [NSString stringWithFormat: @"<html style='padding: 0; margin: 0; border: 0; outline: 0'><header><style>* {font-family: %@ !important; font-weight: normal !important; font-size:13px !important}</style></header><body style='padding: 0px; margin: 0px;  border: 0; outline: 0;'><div style='color:#666666; text-align:justify'>%@</div></body></html>",@"Helvetica",desc];
+    [_webView loadHTMLString:myHTML baseURL:baseURL];
+}
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    heightForCell = webView.scrollView.contentSize.height + self.btnMore.frame.size.height + 2*MARGIN_CELL_DETAIL;
+    self.btnMore.hidden = YES;
+    if (heightForCell > DEFAULT_HEIGH_CELL_DES) {
+        self.btnMore.hidden = NO;
+    }
+}
+
+-(void)prepareForReuse
+{
+    NSLog(@"1111111");
 }
 @end

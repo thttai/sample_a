@@ -37,34 +37,34 @@
 
     // Configure the view for the selected state
 }
--(void)getdetailcontent
+-(void)getDetailContent
 {
-    self.lbdev.text=_apprecorddetail.dev_n;
-    self.lbtitle.text =_apprecorddetail.name;
-    [self.btprice setTitle:@"Free" forState:UIControlStateNormal];
-    _btprice.layer.borderWidth=1;
-    _btprice.layer.borderColor =  [(_btprice.titleLabel.textColor) CGColor];
+    self.lbDev.text=_appRecordDetail.dev_n;
+    self.lbTitle.text =_appRecordDetail.name;
+    [self.btPrice setTitle:@"Free" forState:UIControlStateNormal];
+    _btPrice.layer.borderWidth=1;
+    _btPrice.layer.borderColor =  [(_btPrice.titleLabel.textColor) CGColor];
     
-    _btprice.layer.cornerRadius = 4;
+    _btPrice.layer.cornerRadius = 4;
     //Add image to list app to list app
-    [self.imageviewicon setImageWithURL:[NSURL URLWithString:_apprecorddetail.icon]];
-    _imageviewicon.clipsToBounds = YES;
-    _imageviewicon.layer.cornerRadius = 15;
-    self.rateView.rate = [_apprecorddetail.rate intValue];
-    self.downloadNumLbl.text = [NSString stringWithFormat:@"(%@)", _apprecorddetail.downloads];
+    [self.imageViewIcon setImageWithURL:[NSURL URLWithString:_appRecordDetail.icon]];
+    _imageViewIcon.clipsToBounds = YES;
+    _imageViewIcon.layer.cornerRadius = 15;
+    self.rateView.rate = [_appRecordDetail.rate intValue];
+    self.downloadNumLbl.text = [NSString stringWithFormat:@"(%@)", _appRecordDetail.downloads];
 }
 -(void)prepareForReuse
 {
     [super prepareForReuse];
     UIImage *placeholder = [UIImage imageNamed:@"placeholder.png"];
-    _imageviewicon.clipsToBounds = YES;
-    _imageviewicon.layer.cornerRadius = 15;
-    [_imageviewicon setImage:placeholder];
+    _imageViewIcon.clipsToBounds = YES;
+    _imageViewIcon.layer.cornerRadius = 15;
+    [_imageViewIcon setImage:placeholder];
 }
 
 -(IBAction)handleUpdateVersion:(id)sender
 {
     // get indexpath button
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_apprecorddetail.official_link]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_appRecordDetail.official_link]];
 }
 @end

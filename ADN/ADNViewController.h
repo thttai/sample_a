@@ -24,15 +24,15 @@ typedef enum
 
 @interface ADNViewController : UIViewController<UITableViewDelegate, UITableViewDataSource,UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *segmentedView;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *Segment;
-@property (weak, nonatomic) IBOutlet UITableView *Tableviewlistapp;
-@property (strong, nonatomic) NSMutableArray *MutableArrayListApp;
-@property (strong, nonatomic) NSMutableArray *MutableArrayListAppseg1;
-@property (strong, nonatomic) NSMutableArray *MutableArrayListAppseg2;
-@property (strong, nonatomic) NSMutableArray *MutableArrayListAppseg3;
-@property (strong, nonatomic) NSMutableArray *MutableArrayListCategory;
-@property (strong, nonatomic) Apprecord *apprecord;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segment;
+@property (weak, nonatomic) IBOutlet UITableView *tableViewListApp;
+@property (strong, nonatomic) NSMutableArray *mutableArrayListApp;
+@property (strong, nonatomic) NSMutableArray *mutableArrayListAppseg1;
+@property (strong, nonatomic) NSMutableArray *mutableArrayListAppseg2;
+@property (strong, nonatomic) NSMutableArray *mutableArrayListAppseg3;
+@property (strong, nonatomic) NSMutableArray *mutableArrayListCategory;
+@property (strong, nonatomic) Apprecord *appRecord;
  
-- (IBAction)btsegemented:(id)sender;
+- (IBAction)btSegemented:(id)sender;
 
 @end

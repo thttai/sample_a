@@ -10,13 +10,13 @@
 #import "ADNDetailViewController.h"
 #import "DYRateView.h"
 @interface CellDetailapp : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *lbtitle;
-@property (weak, nonatomic) IBOutlet UIButton *btprice;
-@property (weak, nonatomic) IBOutlet UIImageView *imageviewicon;
+@property (weak, nonatomic) IBOutlet UILabel *lbTitle;
+@property (weak, nonatomic) IBOutlet UIButton *btPrice;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewIcon;
 @property (weak, nonatomic) IBOutlet UILabel *downloadNumLbl;
 @property (strong, nonatomic) DYRateView *rateView;
-@property (strong, nonatomic) Apprecord *apprecorddetail;
-@property (strong, nonatomic) IBOutlet UILabel *lbdev;
--(void)getdetailcontent;
+@property (strong, nonatomic) Apprecord *appRecordDetail;
+@property (strong, nonatomic) IBOutlet UILabel *lbDev;
+-(void)getDetailContent;
 -(IBAction)handleUpdateVersion:(id)sender;
 @end

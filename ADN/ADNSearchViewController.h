@@ -12,7 +12,7 @@
 @interface ADNSearchViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) NSArray *dataArray;
-@property (strong, nonatomic) IBOutlet UISearchBar *searchbar;
-@property (strong, nonatomic) IBOutlet UITableView *tableviewsearch;
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (strong, nonatomic) IBOutlet UITableView *tableViewSearch;
 
 @end
